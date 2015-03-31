@@ -10,6 +10,7 @@ namespace Snipe
         private GameObject selector;
         private GameObject selected;
         private GameObject[] moveObjects;
+        private GameObject[] attackObjects;
 
         public GUIView(GameView gameView)
         {
@@ -28,6 +29,7 @@ namespace Snipe
             UpdateSelector(guiState);
             UpdateSelected(guiState);
             UpdateMoveObjects(guiState);
+            UpdateAttackObjects(guiState);
         }
 
         private void InitializeGUI(GUIState guiState)
@@ -62,6 +64,19 @@ namespace Snipe
                 spriteRenderer = moveObjects[i].AddComponent<SpriteRenderer>();
                 spriteRenderer.sortingOrder = 20;
                 sprite = spriteManager.GetSprite(SpriteID.Move);
+                spriteRenderer.sprite = sprite;
+            }
+
+            // Attack objects.
+            attackObjects = new GameObject[8];
+
+            for (int i = 0; i < attackObjects.Length; ++i)
+            {
+                attackObjects[i] = new GameObject("Attack " + i);
+
+                spriteRenderer = attackObjects[i].AddComponent<SpriteRenderer>();
+                spriteRenderer.sortingOrder = 20;
+                sprite = spriteManager.GetSprite(SpriteID.Attack);
                 spriteRenderer.sprite = sprite;
             }
         }
@@ -144,6 +159,45 @@ namespace Snipe
                     if (moveObjects[i].activeSelf)
                     {
                         moveObjects[i].SetActive(false);
+                    }
+                }
+            }
+        }
+
+        private void UpdateAttackObjects(GUIState guiState)
+        {
+            if (guiState.SelectedUnit != null)
+            {
+                if (guiState.AttackPositions.Count > attackObjects.Length)
+                {
+                    throw new System.Exception("Not enough attack objects.");
+                }
+
+                for (int i = 0; i < attackObjects.Length; ++i)
+                {
+                    if (i < guiState.AttackPositions.Count)
+                    {
+                        if (!attackObjects[i].activeSelf)
+                        {
+                            attackObjects[i].SetActive(true);
+                        }
+
+                        attackObjects[i].transform.localPosition = new Vector3(
+                            guiState.AttackPositions[i].x, guiState.AttackPositions[i].y, 0);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < attackObjects.Length; ++i)
+                {
+                    if (attackObjects[i].activeSelf)
+                    {
+                        attackObjects[i].SetActive(false);
                     }
                 }
             }

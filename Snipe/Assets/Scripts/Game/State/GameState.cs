@@ -51,9 +51,9 @@ namespace Snipe
 
         public void StartTurn()
         {
-            CurrentPlayer.ResetActionPoints();
-
             Debug.Log("It is " + CurrentPlayer.Name + "'s turn.");
+
+            CurrentPlayer.ResetActionPoints();
         }
 
         public void AdvanceTurn()

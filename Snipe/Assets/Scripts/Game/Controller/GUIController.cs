@@ -44,6 +44,7 @@ namespace Snipe
                         guiState.SelectedUnit = unit;
 
                         DisplayLegalMoves(guiState.SelectedUnit);
+                        DisplayLegalAttacks(guiState.SelectedUnit);
                     }
                 }
                 else
@@ -53,7 +54,7 @@ namespace Snipe
                     if (guiState.SelectedUnit != null
                         && Input.GetMouseButtonUp(0))
                     {
-                        List<Cell> legalMoves = guiState.SelectedUnit.GetLegalMoves();
+                        List<Cell> legalMoves = guiState.SelectedUnit.GetLegalMoves(gameState.Grid);
 
                         foreach (Cell legalMove in legalMoves)
                         {
@@ -84,13 +85,27 @@ namespace Snipe
         {
             guiState.MovePositions.Clear();
 
-            List<Cell> legalMoves = unit.GetLegalMoves();
+            List<Cell> legalMoves = unit.GetLegalMoves(gameState.Grid);
 
             foreach (Cell legalMove in legalMoves)
             {
                 Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalMove.Position);
 
                 guiState.MovePositions.Add(screenPosition);
+            }
+        }
+
+        private void DisplayLegalAttacks(Unit unit)
+        {
+            guiState.AttackPositions.Clear();
+
+            List<Cell> legalAttacks = unit.GetLegalAttacks(gameState.Grid);
+
+            foreach (Cell legalAttack in legalAttacks)
+            {
+                Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalAttack.Position);
+
+                guiState.AttackPositions.Add(screenPosition);
             }
         }
     }

@@ -50,9 +50,9 @@ namespace Snipe
             return true;
         }
 
-        public List<Cell> GetLegalMoves()
+        public List<Cell> GetLegalMoves(Grid grid)
         {
-            List<Cell> adjacentCells = Location.GetAdjacentCells();
+            List<Cell> adjacentCells = grid.GetCellsAdjacentTo(Location);
 
             for (int i = 0; i < adjacentCells.Count; ++i)
             {
@@ -64,6 +64,46 @@ namespace Snipe
             }
 
             return adjacentCells;
+        }
+
+        public void Attack(Cell target)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool CanAttack(Cell target)
+        {
+            Unit targetUnit = target.GetUnit();
+
+            // There's no unit here to attack.
+            if (targetUnit == null)
+            {
+                return false;
+            }
+
+            // Can't attack same faction.
+            if (targetUnit.Faction == faction)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public List<Cell> GetLegalAttacks(Grid grid)
+        {
+            List<Cell> visibleCells = grid.GetCellsVisibleFrom(Location);
+
+            for (int i = 0; i < visibleCells.Count; ++i)
+            {
+                if (!CanAttack(visibleCells[i]))
+                {
+                    visibleCells.RemoveAt(i);
+                    --i;
+                }
+            }
+
+            return visibleCells;
         }
     }
 }

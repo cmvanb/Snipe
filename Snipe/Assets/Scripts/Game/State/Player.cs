@@ -1,4 +1,6 @@
-﻿namespace Snipe
+﻿using UnityEngine;
+
+namespace Snipe
 {
     public class Player
     {
@@ -24,11 +26,15 @@
             {
                 actionPoints = 0;
             }
+
+            Debug.Log(name + " has " + actionPoints + " action points remaining.");
         }
 
         public void ResetActionPoints()
         {
             actionPoints = Constants.ActionPointsPerTurn;
+
+            Debug.Log(name + " has " + actionPoints + " action points remaining.");
         }
     }
 }
