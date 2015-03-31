@@ -20,6 +20,7 @@ namespace UnityStandardAssets.Utility
             m_GuiText = GetComponent<GUIText>();
         }
 
+		// Muahaha Thomas was here.
 
         private void Update()
         {
