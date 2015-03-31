@@ -8,6 +8,13 @@ namespace Snipe
         public Grid Grid { get { return grid; } }
         public List<Player> Players { get { return players; } }
         public int TurnIndex { get { return turnIndex; } }
+        public Player CurrentPlayer
+        {
+            get
+            {
+                return players[turnIndex];
+            }
+        }
 
 		private Grid grid;
         private List<Player> players;

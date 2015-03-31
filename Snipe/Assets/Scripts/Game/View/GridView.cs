@@ -15,6 +15,8 @@ namespace Snipe
 
         public GridView()
         {
+            GridMath.GridView = this;
+
             entityViews = new List<EntityView>();
         }
         

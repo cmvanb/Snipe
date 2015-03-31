@@ -39,6 +39,9 @@ namespace Snipe
             resourceManager.AddPath("Sprites/Units/b_sniper");
             resourceManager.AddPath("Sprites/Units/b_medic");
             resourceManager.AddPath("Sprites/Interface/selector");
+            resourceManager.AddPath("Sprites/Interface/selected");
+            resourceManager.AddPath("Sprites/Interface/move");
+            resourceManager.AddPath("Sprites/Interface/attack");
             resourceManager.LoadAll();
 
             // Use sprite manager to load textures into sprites.
@@ -54,6 +57,9 @@ namespace Snipe
             spriteManager.AddSprite(SpriteID.BSniper, "Sprites/Units/b_sniper");
             spriteManager.AddSprite(SpriteID.BMedic, "Sprites/Units/b_medic");
             spriteManager.AddSprite(SpriteID.Selector, "Sprites/Interface/selector");
+            spriteManager.AddSprite(SpriteID.Selected, "Sprites/Interface/selected");
+            spriteManager.AddSprite(SpriteID.Move, "Sprites/Interface/move");
+            spriteManager.AddSprite(SpriteID.Attack, "Sprites/Interface/attack");
 
             // Find camera.
             Camera camera = Camera.main;
