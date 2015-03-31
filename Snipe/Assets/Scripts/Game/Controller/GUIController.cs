@@ -59,6 +59,7 @@ namespace Snipe
                         {
                             if (legalMove.Position == gridPosition)
                             {
+                                gameState.CurrentPlayer.UseActionPoint();
                                 guiState.SelectedUnit.Move(legalMove);
                                 guiState.SelectedUnit = null;
 

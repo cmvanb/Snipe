@@ -48,5 +48,24 @@ namespace Snipe
         {
             players.Add(player);
         }
+
+        public void StartTurn()
+        {
+            CurrentPlayer.ResetActionPoints();
+
+            Debug.Log("It is " + CurrentPlayer.Name + "'s turn.");
+        }
+
+        public void AdvanceTurn()
+        {
+            ++turnIndex;
+
+            if (turnIndex > players.Count - 1)
+            {
+                turnIndex = 0;
+            }
+
+            StartTurn();
+        }
 	}
 }

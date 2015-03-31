@@ -12,12 +12,17 @@ namespace Snipe
 		}
 		
 		public void Start()
-		{
-            Debug.Log("It is " + gameState.Players[gameState.TurnIndex].Name + "'s turn.");
+        {
+            gameState.StartTurn();
 		}
 
 		public void Update()
 		{
+            if (gameState.CurrentPlayer.ActionPoints == 0)
+            {
+                // TODO: Handle turn over.
+                gameState.AdvanceTurn();
+            }
 		}
 	}
 }

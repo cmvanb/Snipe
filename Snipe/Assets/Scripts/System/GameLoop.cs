@@ -70,8 +70,8 @@ namespace Snipe
             // Build game state, view and controller objects.
 			gameState = new GameState(levelData);
 
-            gameState.AddPlayer(new Player("One", Faction.A));
-            gameState.AddPlayer(new Player("Two", Faction.B));
+            gameState.AddPlayer(new Player("Casper", Faction.A));
+            gameState.AddPlayer(new Player("Thomas", Faction.B));
 
             gameView = new GameView(camera);
 
