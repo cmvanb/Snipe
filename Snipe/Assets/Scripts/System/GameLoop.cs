@@ -26,17 +26,29 @@ namespace Snipe
             // Identify and load all dynamic resources.
             ResourceManager resourceManager = ResourceManager.Instance;
 
-            resourceManager.AddPath("Sprites/empty-rect");
+            resourceManager.AddPath("Sprites/empty_rect");
             resourceManager.AddPath("Sprites/grass");
-            resourceManager.AddPath("Sprites/Units/unit-test");
+            resourceManager.AddPath("Sprites/dirt");
+            resourceManager.AddPath("Sprites/Units/a_soldier");
+            resourceManager.AddPath("Sprites/Units/a_sniper");
+            resourceManager.AddPath("Sprites/Units/a_medic");
+            resourceManager.AddPath("Sprites/Units/b_soldier");
+            resourceManager.AddPath("Sprites/Units/b_sniper");
+            resourceManager.AddPath("Sprites/Units/b_medic");
             resourceManager.LoadAll();
 
             // Use sprite manager to load textures into sprites.
             SpriteManager spriteManager = SpriteManager.Instance;
 
-            spriteManager.AddSprite(SpriteID.EmptyRect, "Sprites/empty-rect");
+            spriteManager.AddSprite(SpriteID.EmptyRect, "Sprites/empty_rect");
             spriteManager.AddSprite(SpriteID.GrassRect, "Sprites/grass");
-            spriteManager.AddSprite(SpriteID.ASoldier, "Sprites/Units/unit-test");
+            spriteManager.AddSprite(SpriteID.DirtRect, "Sprites/dirt");
+            spriteManager.AddSprite(SpriteID.ASoldier, "Sprites/Units/a_soldier");
+            spriteManager.AddSprite(SpriteID.ASniper, "Sprites/Units/a_sniper");
+            spriteManager.AddSprite(SpriteID.AMedic, "Sprites/Units/a_medic");
+            spriteManager.AddSprite(SpriteID.BSoldier, "Sprites/Units/b_soldier");
+            spriteManager.AddSprite(SpriteID.BSniper, "Sprites/Units/b_sniper");
+            spriteManager.AddSprite(SpriteID.BMedic, "Sprites/Units/b_medic");
 
             // Find camera.
             Camera camera = Camera.main;

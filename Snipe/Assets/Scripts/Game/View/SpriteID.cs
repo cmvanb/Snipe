@@ -4,9 +4,11 @@
     {
         EmptyRect = 0,
         GrassRect = 1,
+        DirtRect = 2,
 
         EmptyHex = 10,
         GrassHex = 11,
+        DirtHex = 12,
 
         ASoldier = 20,
         ASniper = 21,

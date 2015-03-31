@@ -32,5 +32,49 @@ namespace Snipe
         {
             return spriteLookup[id];
         }
+
+        public SpriteID GetSpriteIDForTileType(TileType tileType, GridType gridType)
+        {
+            if (gridType == GridType.Hexagonal)
+            {
+                switch (tileType)
+                {
+                    case TileType.Empty:
+                        return SpriteID.EmptyHex;
+                    case TileType.Grass:
+                        return SpriteID.GrassHex;
+                    case TileType.Dirt:
+                        return SpriteID.DirtHex;
+                }
+            }
+            else if (gridType == GridType.Rectangular)
+            {
+                switch (tileType)
+                {
+                    case TileType.Empty:
+                        return SpriteID.EmptyRect;
+                    case TileType.Grass:
+                        return SpriteID.GrassRect;
+                    case TileType.Dirt:
+                        return SpriteID.DirtRect;
+                }
+            }
+
+            throw new System.Exception("Could not find appropriate sprite for tile type: " + tileType + " on grid of type: " + gridType);
+        }
+
+        public SpriteID GetSpriteIDForEntity(Entity entity)
+        {
+            Unit unit = entity as Unit;
+
+            if (unit != null)
+            {
+                int index = (20 + (int)unit.Faction * 10) + (int)unit.UnitType;
+
+                return (SpriteID)index;
+            }
+
+            throw new System.Exception("Could not find appropriate sprite for entity: " + entity);
+        }
     }
 }

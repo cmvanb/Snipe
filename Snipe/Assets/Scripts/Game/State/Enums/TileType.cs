@@ -4,5 +4,6 @@
     {
         Empty,
         Grass,
+        Dirt,
     }
 }

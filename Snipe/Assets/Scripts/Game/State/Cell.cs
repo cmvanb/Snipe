@@ -7,6 +7,7 @@ namespace Snipe
 	{
         public Vector2 Position { get { return position; } }
         public TileType TileType { get { return tileType; } set { tileType = value; } }
+        public List<Entity> Entities { get { return entities; } }
 
         private Vector2 position;
         private TileType tileType = TileType.Empty;

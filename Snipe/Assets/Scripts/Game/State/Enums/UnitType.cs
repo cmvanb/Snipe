@@ -2,8 +2,8 @@
 {
     public enum UnitType
     {
-        Soldier,
-        Sniper,
-        Medic,
+        Soldier = 0,
+        Sniper = 1,
+        Medic = 2,
     }
 }

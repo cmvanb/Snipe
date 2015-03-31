@@ -2,6 +2,14 @@
 {
     public class Unit : Entity
     {
+        public override string Name 
+        { 
+            get 
+            {
+                return "Unit/" + faction.ToString() + "/" + unitType.ToString();
+            }
+        }
+
         public Faction Faction { get { return faction; } set { faction = value; } }
         public UnitType UnitType { get { return unitType; } set { unitType = value; } }
 

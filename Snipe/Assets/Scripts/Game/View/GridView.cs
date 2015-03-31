@@ -5,17 +5,17 @@ namespace Snipe
 {
     public class GridView : IView
     {
-        public Vector2 TopLeftOffset { get { return gridPosition; } }
+        public Vector3 GridPosition { get { return gridPosition; } }
 
-        private Vector2 gridPosition = Vector2.zero;
+        private Vector3 gridPosition = Vector3.zero;
         private bool gridInitialized;
         private GameObject gameObject;
         private GameObject[,] cellObjects;
-        private Dictionary<TileType, SpriteID> tileToSpriteMapping;
+        private List<EntityView> entityViews;
 
         public GridView()
         {
-            tileToSpriteMapping = new Dictionary<TileType, SpriteID>();
+            entityViews = new List<EntityView>();
         }
         
         public void Update(GameState gameState)
@@ -34,8 +34,14 @@ namespace Snipe
             {
                 for (int y = 0; y < grid.Height; ++y)
                 {
-                    UpdateCellObject(x, y, grid.GetCellAt(x, y));
+                    UpdateCellObject(x, y, grid.GetCellAt(x, y), grid.GridType);
                 }
+            }
+
+            // Update entity views.
+            foreach (EntityView entityView in entityViews)
+            {
+                entityView.Update(gameState);
             }
 
             // Update grid position (can react to resolution changes).
@@ -66,17 +72,20 @@ namespace Snipe
                 }
             }
 
-            // Setup tile sprite mappings.
-            tileToSpriteMapping.Clear();
+            // Create entity views.
+            for (int x = 0; x < grid.Width; ++x)
+            {
+                for (int y = 0; y < grid.Height; ++y)
+                {
+                    Cell cell = grid.GetCellAt(x, y);
 
-            if (grid.GridType == GridType.Hexagonal)
-            {
-                // TODO: Map hexagonal sprites.
-            }
-            else if (grid.GridType == GridType.Rectangular)
-            {
-                tileToSpriteMapping[TileType.Empty] = SpriteID.EmptyRect;
-                tileToSpriteMapping[TileType.Grass] = SpriteID.GrassRect;
+                    foreach (Entity entity in cell.Entities)
+                    {
+                        EntityView entityView = new EntityView(this, entity);
+
+                        entityViews.Add(entityView);
+                    }
+                }
             }
         }
 
@@ -86,19 +95,19 @@ namespace Snipe
             float gridUnitWidth = grid.Width;
             float gridUnitHeight = grid.Height;
 
-            gridPosition = new Vector2((-gridUnitWidth / 2f), (gridUnitHeight / 2f));
+            gridPosition = new Vector3((-gridUnitWidth / 2f), (gridUnitHeight / 2f), 0f);
 
-            gameObject.transform.position = new Vector3(gridPosition.x, gridPosition.y, 0f);
+            gameObject.transform.position = gridPosition;
         }
 
-        private void UpdateCellObject(int x, int y, Cell cell)
+        private void UpdateCellObject(int x, int y, Cell cell, GridType gridType)
         {
             // Get sprite.
             SpriteManager spriteManager = SpriteManager.Instance;
 
             TileType tileType = cell.TileType;
 
-            SpriteID spriteID = tileToSpriteMapping[tileType];
+            SpriteID spriteID = spriteManager.GetSpriteIDForTileType(tileType, gridType);
 
             Sprite sprite = spriteManager.GetSprite(spriteID);
 
