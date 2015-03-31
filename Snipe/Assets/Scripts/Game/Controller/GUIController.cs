@@ -38,7 +38,7 @@ namespace Snipe
                     guiState.SelectorActive = true;
 
                     if (guiState.SelectedUnit != unit
-                        && Input.GetMouseButton(0))
+                        && Input.GetMouseButtonUp(0))
                     {
                         guiState.SelectedPosition = raycastHit.transform.position;
                         guiState.SelectedUnit = unit;
@@ -49,6 +49,23 @@ namespace Snipe
                 else
                 {
                     guiState.SelectorActive = false;
+
+                    if (guiState.SelectedUnit != null
+                        && Input.GetMouseButtonUp(0))
+                    {
+                        List<Cell> legalMoves = guiState.SelectedUnit.GetLegalMoves();
+
+                        foreach (Cell legalMove in legalMoves)
+                        {
+                            if (legalMove.Position == gridPosition)
+                            {
+                                guiState.SelectedUnit.Move(legalMove);
+                                guiState.SelectedUnit = null;
+
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             else
@@ -56,7 +73,7 @@ namespace Snipe
                 guiState.SelectorActive = false;
             }
 
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButtonUp(1))
             {
                 guiState.SelectedUnit = null;
             }
@@ -68,9 +85,9 @@ namespace Snipe
 
             List<Cell> legalMoves = unit.GetLegalMoves();
 
-            foreach (Cell cell in legalMoves)
+            foreach (Cell legalMove in legalMoves)
             {
-                Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(cell.Position);
+                Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalMove.Position);
 
                 guiState.MovePositions.Add(screenPosition);
             }

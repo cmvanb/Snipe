@@ -27,7 +27,10 @@ namespace Snipe
 
         public void Move(Cell destination)
         {
-            // TODO: Actually move unit.
+            Location.RemoveEntity(this as Entity);
+            destination.AddEntity(this as Entity);
+
+            Location = destination;
         }
 
         public bool CanMove(Cell destination)

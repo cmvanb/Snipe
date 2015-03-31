@@ -29,6 +29,14 @@ namespace Snipe
             entities.Add(entity);
         }
 
+        public void RemoveEntity(Entity entity)
+        {
+            if (entities.Contains(entity))
+            {
+                entities.Remove(entity);
+            }
+        }
+
         public Unit GetUnit()
         {
             foreach (Entity entity in Entities)
