@@ -11,6 +11,7 @@ namespace Snipe
         private GameObject selected;
         private GameObject[] moveObjects;
         private GameObject[] attackObjects;
+        private GameObject[] healObjects;
 
         public GUIView(GameView gameView)
         {
@@ -30,6 +31,7 @@ namespace Snipe
             UpdateSelected(guiState);
             UpdateMoveObjects(guiState);
             UpdateAttackObjects(guiState);
+            UpdateHealObjects(guiState);
         }
 
         private void InitializeGUI(GUIState guiState)
@@ -77,6 +79,19 @@ namespace Snipe
                 spriteRenderer = attackObjects[i].AddComponent<SpriteRenderer>();
                 spriteRenderer.sortingOrder = 20;
                 sprite = spriteManager.GetSprite(SpriteID.Attack);
+                spriteRenderer.sprite = sprite;
+            }
+
+            // Heal objects.
+            healObjects = new GameObject[8];
+
+            for (int i = 0; i < healObjects.Length; ++i)
+            {
+                healObjects[i] = new GameObject("Heal " + i);
+
+                spriteRenderer = healObjects[i].AddComponent<SpriteRenderer>();
+                spriteRenderer.sortingOrder = 20;
+                sprite = spriteManager.GetSprite(SpriteID.Heal);
                 spriteRenderer.sprite = sprite;
             }
         }
@@ -198,6 +213,45 @@ namespace Snipe
                     if (attackObjects[i].activeSelf)
                     {
                         attackObjects[i].SetActive(false);
+                    }
+                }
+            }
+        }
+
+        private void UpdateHealObjects(GUIState guiState)
+        {
+            if (guiState.SelectedUnit != null)
+            {
+                if (guiState.HealPositions.Count > healObjects.Length)
+                {
+                    throw new System.Exception("Not enough heal objects.");
+                }
+
+                for (int i = 0; i < healObjects.Length; ++i)
+                {
+                    if (i < guiState.HealPositions.Count)
+                    {
+                        if (!healObjects[i].activeSelf)
+                        {
+                            healObjects[i].SetActive(true);
+                        }
+
+                        healObjects[i].transform.localPosition = new Vector3(
+                            guiState.HealPositions[i].x, guiState.HealPositions[i].y, 0);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < healObjects.Length; ++i)
+                {
+                    if (healObjects[i].activeSelf)
+                    {
+                        healObjects[i].SetActive(false);
                     }
                 }
             }

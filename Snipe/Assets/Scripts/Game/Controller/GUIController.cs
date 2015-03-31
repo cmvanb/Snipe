@@ -33,7 +33,9 @@ namespace Snipe
                 Unit unit = cell.GetUnit();
 
                 if (unit != null
-                    && gameState.CurrentPlayer.Faction == unit.Faction)
+                    && gameState.CurrentPlayer.Faction == unit.Faction
+                    && unit.IsAlive
+                    && !unit.IsWounded)
                 {
                     guiState.SelectorActive = true;
 
@@ -45,6 +47,7 @@ namespace Snipe
 
                         DisplayLegalMoves(guiState.SelectedUnit);
                         DisplayLegalAttacks(guiState.SelectedUnit);
+                        DisplayLegalHeals(guiState.SelectedUnit);
                     }
                 }
                 else
@@ -54,7 +57,7 @@ namespace Snipe
                     if (guiState.SelectedUnit != null
                         && Input.GetMouseButtonUp(0))
                     {
-                        List<Cell> legalMoves = guiState.SelectedUnit.GetLegalMoves(gameState.Grid);
+                        List<Cell> legalMoves = guiState.SelectedUnit.GetLegalMoves();
 
                         foreach (Cell legalMove in legalMoves)
                         {
@@ -64,15 +67,11 @@ namespace Snipe
                                 guiState.SelectedUnit.Move(legalMove);
                                 guiState.SelectedUnit = null;
 
-                                break;
+                                return;
                             }
                         }
-                    }
 
-                    if (guiState.SelectedUnit != null
-                        && Input.GetMouseButtonUp(0))
-                    {
-                        List<Cell> legalAttacks = guiState.SelectedUnit.GetLegalAttacks(gameState.Grid);
+                        List<Cell> legalAttacks = guiState.SelectedUnit.GetLegalAttacks();
 
                         foreach (Cell legalAttack in legalAttacks)
                         {
@@ -82,7 +81,21 @@ namespace Snipe
                                 guiState.SelectedUnit.Attack(legalAttack);
                                 guiState.SelectedUnit = null;
 
-                                break;
+                                return;
+                            }
+                        }
+
+                        List<Cell> legalHeals = guiState.SelectedUnit.GetLegalHeals();
+
+                        foreach (Cell legalHeal in legalHeals)
+                        {
+                            if (legalHeal.Position == gridPosition)
+                            {
+                                gameState.CurrentPlayer.UseActionPoint();
+                                guiState.SelectedUnit.Heal(legalHeal);
+                                guiState.SelectedUnit = null;
+
+                                return;
                             }
                         }
                     }
@@ -103,7 +116,7 @@ namespace Snipe
         {
             guiState.MovePositions.Clear();
 
-            List<Cell> legalMoves = unit.GetLegalMoves(gameState.Grid);
+            List<Cell> legalMoves = unit.GetLegalMoves();
 
             foreach (Cell legalMove in legalMoves)
             {
@@ -117,13 +130,27 @@ namespace Snipe
         {
             guiState.AttackPositions.Clear();
 
-            List<Cell> legalAttacks = unit.GetLegalAttacks(gameState.Grid);
+            List<Cell> legalAttacks = unit.GetLegalAttacks();
 
             foreach (Cell legalAttack in legalAttacks)
             {
                 Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalAttack.Position);
 
                 guiState.AttackPositions.Add(screenPosition);
+            }
+        }
+
+        private void DisplayLegalHeals(Unit unit)
+        {
+            guiState.HealPositions.Clear();
+
+            List<Cell> legalHeals = unit.GetLegalHeals();
+
+            foreach (Cell legalHeal in legalHeals)
+            {
+                Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalHeal.Position);
+
+                guiState.HealPositions.Add(screenPosition);
             }
         }
     }

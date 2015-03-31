@@ -30,16 +30,26 @@ namespace Snipe
             {
                 for (int y = 0; y < grid.Height; ++y)
                 {
-                    grid.Cells[x, y].TileType = (TileType)UnityEngine.Random.Range(1, 3);
+                    bool xIsEven = x % 2 == 0;
+                    bool yIsEven = y % 2 == 0;
+
+                    if (yIsEven)
+                    {
+                        grid.Cells[x, y].TileType = (TileType)(xIsEven ? 1 : 2);
+                    }
+                    else
+                    {
+                        grid.Cells[x, y].TileType = (TileType)(xIsEven ? 2 : 1);
+                    }
                 }
             }
 
-            grid.Cells[4, 1].AddEntity(new Unit(Faction.B, UnitType.Soldier));
-            grid.Cells[4, 6].AddEntity(new Unit(Faction.A, UnitType.Soldier));
-            grid.Cells[3, 1].AddEntity(new Unit(Faction.B, UnitType.Sniper));
-            grid.Cells[3, 6].AddEntity(new Unit(Faction.A, UnitType.Sniper));
-            grid.Cells[5, 1].AddEntity(new Unit(Faction.B, UnitType.Medic));
-            grid.Cells[5, 6].AddEntity(new Unit(Faction.A, UnitType.Medic));
+            grid.Cells[4, 1].AddEntity(new Unit(Faction.B, UnitType.Soldier, grid));
+            grid.Cells[4, 6].AddEntity(new Unit(Faction.A, UnitType.Soldier, grid));
+            grid.Cells[3, 1].AddEntity(new Unit(Faction.B, UnitType.Sniper, grid));
+            grid.Cells[3, 6].AddEntity(new Unit(Faction.A, UnitType.Sniper, grid));
+            grid.Cells[5, 1].AddEntity(new Unit(Faction.B, UnitType.Medic, grid));
+            grid.Cells[5, 6].AddEntity(new Unit(Faction.A, UnitType.Medic, grid));
 
             this.players = new List<Player>();
 		}

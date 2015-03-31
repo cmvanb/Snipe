@@ -29,9 +29,10 @@ namespace Snipe
             // Identify and load all dynamic resources.
             ResourceManager resourceManager = ResourceManager.Instance;
 
-            resourceManager.AddPath("Sprites/empty_rect");
-            resourceManager.AddPath("Sprites/grass");
-            resourceManager.AddPath("Sprites/dirt");
+            resourceManager.AddPath("Sprites/RectTiles/empty_rect");
+            resourceManager.AddPath("Sprites/RectTiles/grass");
+            resourceManager.AddPath("Sprites/RectTiles/grass2");
+            resourceManager.AddPath("Sprites/RectTiles/dirt");
             resourceManager.AddPath("Sprites/Units/a_soldier");
             resourceManager.AddPath("Sprites/Units/a_sniper");
             resourceManager.AddPath("Sprites/Units/a_medic");
@@ -42,14 +43,16 @@ namespace Snipe
             resourceManager.AddPath("Sprites/Interface/selected");
             resourceManager.AddPath("Sprites/Interface/move");
             resourceManager.AddPath("Sprites/Interface/attack");
+            resourceManager.AddPath("Sprites/Interface/heal");
             resourceManager.LoadAll();
 
             // Use sprite manager to load textures into sprites.
             SpriteManager spriteManager = SpriteManager.Instance;
 
-            spriteManager.AddSprite(SpriteID.EmptyRect, "Sprites/empty_rect");
-            spriteManager.AddSprite(SpriteID.GrassRect, "Sprites/grass");
-            spriteManager.AddSprite(SpriteID.DirtRect, "Sprites/dirt");
+            spriteManager.AddSprite(SpriteID.EmptyRect, "Sprites/RectTiles/empty_rect");
+            spriteManager.AddSprite(SpriteID.GrassRect, "Sprites/RectTiles/grass");
+            spriteManager.AddSprite(SpriteID.Grass2Rect, "Sprites/RectTiles/grass2");
+            spriteManager.AddSprite(SpriteID.DirtRect, "Sprites/RectTiles/dirt");
             spriteManager.AddSprite(SpriteID.ASoldier, "Sprites/Units/a_soldier");
             spriteManager.AddSprite(SpriteID.ASniper, "Sprites/Units/a_sniper");
             spriteManager.AddSprite(SpriteID.AMedic, "Sprites/Units/a_medic");
@@ -60,6 +63,7 @@ namespace Snipe
             spriteManager.AddSprite(SpriteID.Selected, "Sprites/Interface/selected");
             spriteManager.AddSprite(SpriteID.Move, "Sprites/Interface/move");
             spriteManager.AddSprite(SpriteID.Attack, "Sprites/Interface/attack");
+            spriteManager.AddSprite(SpriteID.Heal, "Sprites/Interface/heal");
 
             // Find camera.
             Camera camera = Camera.main;

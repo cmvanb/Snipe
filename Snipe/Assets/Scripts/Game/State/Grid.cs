@@ -34,6 +34,19 @@ namespace Snipe
             }
 		}
 
+        public bool AreCellsAdjacent(Cell cell1, Cell cell2)
+        {
+            Vector2 difference = cell1.Position - cell2.Position;
+
+            if ((int)Mathf.Abs(difference.x) <= 1
+                && (int)Mathf.Abs(difference.y) <= 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
 		public Cell GetCellAt(int x, int y)
 		{
 			return cells[x, y];

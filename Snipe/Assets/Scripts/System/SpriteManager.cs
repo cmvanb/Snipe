@@ -43,6 +43,8 @@ namespace Snipe
                         return SpriteID.EmptyHex;
                     case TileType.Grass:
                         return SpriteID.GrassHex;
+                    case TileType.Grass2:
+                        return SpriteID.Grass2Hex;
                     case TileType.Dirt:
                         return SpriteID.DirtHex;
                 }
@@ -55,6 +57,8 @@ namespace Snipe
                         return SpriteID.EmptyRect;
                     case TileType.Grass:
                         return SpriteID.GrassRect;
+                    case TileType.Grass2:
+                        return SpriteID.Grass2Rect;
                     case TileType.Dirt:
                         return SpriteID.DirtRect;
                 }
