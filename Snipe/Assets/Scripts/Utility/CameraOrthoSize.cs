@@ -2,8 +2,12 @@
 
 namespace Snipe
 {
+    public delegate void ResolutionChangedHandler(int width, int height);
+
     public class CameraOrthoSize : MonoBehaviour 
     {
+        public event ResolutionChangedHandler ResolutionChangedEvent;
+
         private Camera camera;
 
         private int bufferedScreenHeight; 
@@ -22,6 +26,11 @@ namespace Snipe
                 bufferedScreenHeight = Screen.height;
 
                 camera.orthographicSize = (bufferedScreenHeight / 2.0f) * (1 / Constants.PixelsPerUnit);
+
+                if (ResolutionChangedEvent != null)
+                {
+                    ResolutionChangedEvent(Screen.width, Screen.height);
+                }
             }
     	}
     }

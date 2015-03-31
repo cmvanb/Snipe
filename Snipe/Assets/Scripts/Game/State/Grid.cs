@@ -1,15 +1,18 @@
-﻿namespace Snipe
+﻿using UnityEngine;
+
+namespace Snipe
 {
 	public class Grid
 	{
         public int Width { get { return width; } }
         public int Height { get { return height; } }
-		public GridType GridType { get { return gridType; } }
+        public GridType GridType { get { return gridType; } }
+        public Cell[,] Cells { get { return cells; } }
 
-		private Cell[,] cells;
         private int width;
         private int height;
-		private GridType gridType;
+        private GridType gridType;
+        private Cell[,] cells;
 
 		public Grid(int width, int height, GridType gridType)
 		{
@@ -25,7 +28,7 @@
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    this.cells[x, y] = new Cell();
+                    this.cells[x, y] = new Cell(new Vector2(x, y), TileType.Empty);//(TileType)UnityEngine.Random.Range(0, 2));
                 }
             }
 		}

@@ -21,7 +21,9 @@ namespace Snipe
 
             Rect rect = new Rect(0, 0, spriteTexture.width, spriteTexture.height);
 
-            Sprite sprite = Sprite.Create(spriteTexture, rect, Vector2.zero, Constants.PixelsPerUnit);
+            Vector2 pivot = new Vector2(0f, 1f);
+
+            Sprite sprite = Sprite.Create(spriteTexture, rect, pivot, Constants.PixelsPerUnit);
 
             spriteLookup[id] = sprite;
         }

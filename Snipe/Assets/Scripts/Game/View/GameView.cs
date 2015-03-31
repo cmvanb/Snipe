@@ -5,17 +5,18 @@ namespace Snipe
 {
 	public class GameView : IView
 	{
+        private GridView gridView;
         private List<IView> views;
 		
-		public GameView()
+		public GameView(Camera camera)
 		{
             views = new List<IView>();
 
-            Vector2 topLeftOffset = new Vector2(0, 0);
-
-            GridView gridView = new GridView(topLeftOffset);
+            gridView = new GridView();
 
             views.Add(gridView);
+
+            camera.GetComponent<CameraOrthoSize>().ResolutionChangedEvent += OnResolutionChanged;
 		}
 
         public void Update(GameState gameState)
@@ -25,5 +26,10 @@ namespace Snipe
                 view.Update(gameState);
             }
 		}
+
+        public void OnResolutionChanged(int width, int height)
+        {
+            // TODO: Update views by polling game state.
+        }
 	}
 }

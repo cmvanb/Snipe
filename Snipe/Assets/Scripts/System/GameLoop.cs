@@ -28,6 +28,7 @@ namespace Snipe
 
             resourceManager.AddPath("Sprites/empty-rect");
             resourceManager.AddPath("Sprites/grass");
+            resourceManager.AddPath("Sprites/Units/unit-test");
             resourceManager.LoadAll();
 
             // Use sprite manager to load textures into sprites.
@@ -35,6 +36,10 @@ namespace Snipe
 
             spriteManager.AddSprite(SpriteID.EmptyRect, "Sprites/empty-rect");
             spriteManager.AddSprite(SpriteID.GrassRect, "Sprites/grass");
+            spriteManager.AddSprite(SpriteID.ASoldier, "Sprites/Units/unit-test");
+
+            // Find camera.
+            Camera camera = Camera.main;
 
 			// TODO: retrieve level data from file and/or scene
 			LevelData levelData = new LevelData();
@@ -42,7 +47,7 @@ namespace Snipe
             // Build game state, view and controller objects.
 			gameState = new GameState(levelData);
 
-			gameView = new GameView();
+            gameView = new GameView(camera);
 
 			gameController = new GameController(gameState);
 

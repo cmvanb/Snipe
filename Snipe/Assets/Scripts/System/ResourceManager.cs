@@ -21,6 +21,8 @@ namespace Snipe
         {
             paths.Add(path);
         }
+
+        // TODO: Write function that will load all objects at a specific path in resources.
         
         public void LoadAll()
         {
