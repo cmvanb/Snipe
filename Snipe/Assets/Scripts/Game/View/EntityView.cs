@@ -5,6 +5,8 @@ namespace Snipe
 {
     public class EntityView : IView
     {
+        public Entity Entity { get { return entity; } }
+
         private GridView gridView;
         private Entity entity;
         private bool entityInitialized;
@@ -43,6 +45,15 @@ namespace Snipe
             }
         }
 
+        public void CleanUp()
+        {
+            GameObject.Destroy(gameObject);
+
+            gridView = null;
+            entity = null;
+            gameObject = null;
+        }
+        
         private void InitializeEntity(GameState gameState)
         {
             gameObject = new GameObject(entity.Name);

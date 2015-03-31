@@ -68,7 +68,9 @@ namespace Snipe
 
         public void Attack(Cell target)
         {
-            throw new System.NotImplementedException();
+            Unit targetUnit = target.GetUnit();
+
+            targetUnit.Kill();
         }
 
         public bool CanAttack(Cell target)
@@ -104,6 +106,17 @@ namespace Snipe
             }
 
             return visibleCells;
+        }
+
+        public void Kill()
+        {
+            Debug.Log("I'm dead at " + Location.Position);
+
+            Location.RemoveEntity(this as Entity);
+
+            Location = null;
+
+            isAlive = false;
         }
     }
 }

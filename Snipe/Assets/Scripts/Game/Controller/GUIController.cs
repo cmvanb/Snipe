@@ -68,6 +68,24 @@ namespace Snipe
                             }
                         }
                     }
+
+                    if (guiState.SelectedUnit != null
+                        && Input.GetMouseButtonUp(0))
+                    {
+                        List<Cell> legalAttacks = guiState.SelectedUnit.GetLegalAttacks(gameState.Grid);
+
+                        foreach (Cell legalAttack in legalAttacks)
+                        {
+                            if (legalAttack.Position == gridPosition)
+                            {
+                                gameState.CurrentPlayer.UseActionPoint();
+                                guiState.SelectedUnit.Attack(legalAttack);
+                                guiState.SelectedUnit = null;
+
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             else

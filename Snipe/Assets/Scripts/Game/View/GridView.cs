@@ -41,13 +41,38 @@ namespace Snipe
             }
 
             // Update entity views.
-            foreach (EntityView entityView in entityViews)
+            for (int i = 0; i < entityViews.Count; ++i)
             {
-                entityView.Update(gameState);
+                if (!entityViews[i].Entity.IsAlive)
+                {
+                    entityViews[i].CleanUp();
+                    entityViews.RemoveAt(i);
+                    --i;
+                }
+                else
+                {
+                    entityViews[i].Update(gameState);
+                }
             }
 
             // Update grid position (can react to resolution changes).
             UpdateGridPosition(gameState);
+        }
+
+        public void CleanUp()
+        {
+            for (int i = 0; i < entityViews.Count; ++i)
+            {
+                entityViews[i].CleanUp();
+            }
+
+            entityViews.Clear();
+
+            GameObject.Destroy(gameObject);
+
+            gameObject = null;
+            cellObjects = null;
+            entityViews = null;
         }
 
         private void InitializeGrid(GameState gameState)

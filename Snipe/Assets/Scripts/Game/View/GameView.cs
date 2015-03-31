@@ -29,6 +29,14 @@ namespace Snipe
             }
 		}
 
+        public void CleanUp()
+        {
+            foreach (IView view in views)
+            {
+                view.CleanUp();
+            }
+        }
+
         public void OnResolutionChanged(int width, int height)
         {
             // TODO: Update views by polling game state.
