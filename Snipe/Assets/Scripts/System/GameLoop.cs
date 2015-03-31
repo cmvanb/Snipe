@@ -23,11 +23,18 @@ namespace Snipe
 				return;
 			}
 
-            // Identify and load all dynamic resources (probably mostly sprites).
+            // Identify and load all dynamic resources.
             ResourceManager resourceManager = ResourceManager.Instance;
 
             resourceManager.AddPath("Sprites/empty-rect");
+            resourceManager.AddPath("Sprites/grass");
             resourceManager.LoadAll();
+
+            // Use sprite manager to load textures into sprites.
+            SpriteManager spriteManager = SpriteManager.Instance;
+
+            spriteManager.AddSprite(SpriteID.EmptyRect, "Sprites/empty-rect");
+            spriteManager.AddSprite(SpriteID.GrassRect, "Sprites/grass");
 
 			// TODO: retrieve level data from file and/or scene
 			LevelData levelData = new LevelData();

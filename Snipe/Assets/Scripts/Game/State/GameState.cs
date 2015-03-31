@@ -12,7 +12,7 @@ namespace Snipe
 		{
 			// TODO: Pipe level data into grid constructor.
 
-			this.grid = new Grid(10, 10, GridType.Rectangular);
+			this.grid = new Grid(8, 8, GridType.Rectangular);
 		}
 	}
 }
