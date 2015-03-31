@@ -1,0 +1,17 @@
+# csharp project files
+*.sln
+*.suo
+*.userprefs
+*.csproj
+*.pidb
+
+# unity project files
+*.unityproj
+
+# mac OSX files
+.DS_Store
+
+# unity auto generated folders
+obj/
+Temp/
+Library/
