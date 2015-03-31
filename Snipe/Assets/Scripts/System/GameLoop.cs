@@ -8,7 +8,10 @@ namespace Snipe
 
         private GameState gameState;
 		private GameView gameView;
-		private GameController gameController;
+        private GameController gameController;
+        private GUIState guiState;
+        private GUIView guiView;
+        private GUIController guiController;
 
 		void Awake()
 		{
@@ -35,6 +38,7 @@ namespace Snipe
             resourceManager.AddPath("Sprites/Units/b_soldier");
             resourceManager.AddPath("Sprites/Units/b_sniper");
             resourceManager.AddPath("Sprites/Units/b_medic");
+            resourceManager.AddPath("Sprites/Interface/selector");
             resourceManager.LoadAll();
 
             // Use sprite manager to load textures into sprites.
@@ -49,6 +53,7 @@ namespace Snipe
             spriteManager.AddSprite(SpriteID.BSoldier, "Sprites/Units/b_soldier");
             spriteManager.AddSprite(SpriteID.BSniper, "Sprites/Units/b_sniper");
             spriteManager.AddSprite(SpriteID.BMedic, "Sprites/Units/b_medic");
+            spriteManager.AddSprite(SpriteID.Selector, "Sprites/Interface/selector");
 
             // Find camera.
             Camera camera = Camera.main;
@@ -59,21 +64,34 @@ namespace Snipe
             // Build game state, view and controller objects.
 			gameState = new GameState(levelData);
 
+            gameState.AddPlayer(new Player("One", Faction.A));
+            gameState.AddPlayer(new Player("Two", Faction.B));
+
             gameView = new GameView(camera);
 
 			gameController = new GameController(gameState);
+            
+            // Build gui state, view and controller objects.
+            guiState = new GUIState();
+
+            guiView = new GUIView(gameView);
+
+            guiController = new GUIController(gameState, guiState);
 
             // Initialize view.
             gameView.Update(gameState);
+            guiView.Update(guiState);
 
             // Start game.
-			gameController.Start();
+            gameController.Start();
 		}
 
 		void Update()
-		{
+        {
+            guiController.Update();
 			gameController.Update();
             gameView.Update(gameState);
+            guiView.Update(guiState);
 		}
 	}
 }

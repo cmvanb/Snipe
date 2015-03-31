@@ -17,5 +17,7 @@
         BSoldier = 30,
         BSniper = 31,
         BMedic = 32,
+
+        Selector = 100,
     }
 }

@@ -13,6 +13,7 @@ namespace Snipe
 		
 		public void Start()
 		{
+            Debug.Log("It is " + gameState.Players[gameState.TurnIndex].Name + "'s turn.");
 		}
 
 		public void Update()

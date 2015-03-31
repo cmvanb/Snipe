@@ -68,6 +68,11 @@ namespace Snipe
                     cellObject.transform.parent = gameObject.transform;
                     cellObject.AddComponent<SpriteRenderer>();
 
+                    BoxCollider boxCollider = cellObject.AddComponent<BoxCollider>();
+
+                    boxCollider.size = new Vector3(1f, 1f, 0.1f);
+                    boxCollider.center = new Vector3(0.5f, -0.5f, 0f);
+
                     cellObjects[x, y] = cellObject;
                 }
             }
@@ -102,23 +107,24 @@ namespace Snipe
 
         private void UpdateCellObject(int x, int y, Cell cell, GridType gridType)
         {
-            // Get sprite.
-            SpriteManager spriteManager = SpriteManager.Instance;
-
-            TileType tileType = cell.TileType;
-
-            SpriteID spriteID = spriteManager.GetSpriteIDForTileType(tileType, gridType);
-
-            Sprite sprite = spriteManager.GetSprite(spriteID);
-
-            // Update cell object position and sprite.
             GameObject cellObject = cellObjects[x, y];
 
             cellObject.transform.localPosition = new Vector3(x, -y, 0);
-            
+
             SpriteRenderer spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
-            
-            spriteRenderer.sprite = sprite;
+
+            if (spriteRenderer.sprite == null)
+            {
+                SpriteManager spriteManager = SpriteManager.Instance;
+
+                TileType tileType = cell.TileType;
+
+                SpriteID spriteID = spriteManager.GetSpriteIDForTileType(tileType, gridType);
+
+                Sprite sprite = spriteManager.GetSprite(spriteID);
+
+                spriteRenderer.sprite = sprite;
+            }
         }
     }
 }

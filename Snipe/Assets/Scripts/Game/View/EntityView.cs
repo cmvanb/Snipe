@@ -25,21 +25,22 @@ namespace Snipe
                 entityInitialized = true;
             }
 
-            // Get sprite.
-            SpriteManager spriteManager = SpriteManager.Instance;
-
-            SpriteID spriteID = spriteManager.GetSpriteIDForEntity(entity);
-
-            Sprite sprite = spriteManager.GetSprite(spriteID);
-
-            // Update object position and sprite.
             Vector2 position = entity.Location.Position;
 
-            gameObject.transform.position = gridView.GridPosition + new Vector3(position.x, -position.y, 0);
+            gameObject.transform.position = gridView.GridPosition + new Vector3(position.x, -position.y, -0.5f);
 
             SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
-            spriteRenderer.sprite = sprite;
+            if (spriteRenderer.sprite == null)
+            {
+                SpriteManager spriteManager = SpriteManager.Instance;
+
+                SpriteID spriteID = spriteManager.GetSpriteIDForEntity(entity);
+
+                Sprite sprite = spriteManager.GetSprite(spriteID);
+
+                spriteRenderer.sprite = sprite;
+            }
         }
 
         private void InitializeEntity(GameState gameState)
@@ -49,6 +50,11 @@ namespace Snipe
             SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
 
             spriteRenderer.sortingOrder = 10;
+
+            BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
+
+            boxCollider.size = new Vector3(1f, 1f, 0.1f);
+            boxCollider.center = new Vector3(0.5f, -0.5f, 0f);
         }
     }
 }
