@@ -1,12 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Snipe
 {
 	public class GameState
 	{
         public Grid Grid { get { return grid; } }
+        public List<Player> Players { get { return players; } }
+        public int TurnIndex { get { return turnIndex; } }
+        public Player CurrentPlayer
+        {
+            get
+            {
+                return players[turnIndex];
+            }
+        }
 
 		private Grid grid;
+        private List<Player> players;
+        private int turnIndex;
 
 		public GameState(LevelData levelData)
 		{
@@ -28,6 +40,13 @@ namespace Snipe
             grid.Cells[3, 6].AddEntity(new Unit(Faction.A, UnitType.Sniper));
             grid.Cells[5, 1].AddEntity(new Unit(Faction.B, UnitType.Medic));
             grid.Cells[5, 6].AddEntity(new Unit(Faction.A, UnitType.Medic));
+
+            this.players = new List<Player>();
 		}
+
+        public void AddPlayer(Player player)
+        {
+            players.Add(player);
+        }
 	}
 }

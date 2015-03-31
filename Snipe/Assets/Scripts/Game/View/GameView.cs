@@ -5,6 +5,8 @@ namespace Snipe
 {
 	public class GameView : IView
 	{
+        public GridView GridView { get { return gridView; } }
+
         private GridView gridView;
         private List<IView> views;
 		

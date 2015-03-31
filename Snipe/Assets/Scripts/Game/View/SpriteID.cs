@@ -17,5 +17,10 @@
         BSoldier = 30,
         BSniper = 31,
         BMedic = 32,
+
+        Selector = 100,
+        Selected = 101,
+        Move = 102,
+        Attack = 103,
     }
 }

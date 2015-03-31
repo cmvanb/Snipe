@@ -28,7 +28,7 @@ namespace Snipe
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    this.cells[x, y] = new Cell(new Vector2(x, y), TileType.Empty);//(TileType)UnityEngine.Random.Range(0, 2));
+                    this.cells[x, y] = new Cell(new Vector2(x, y), TileType.Empty, this);
                 }
             }
 		}
