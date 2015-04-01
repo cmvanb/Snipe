@@ -44,6 +44,8 @@ namespace Snipe
             resourceManager.AddPath("Sprites/Interface/move");
             resourceManager.AddPath("Sprites/Interface/attack");
             resourceManager.AddPath("Sprites/Interface/heal");
+            resourceManager.AddPath("Sprites/Portraits/soldier_normal");
+            resourceManager.AddPath("Sprites/Portraits/soldier_wounded");
             resourceManager.LoadAll();
 
             // Use sprite manager to load textures into sprites.
@@ -64,6 +66,8 @@ namespace Snipe
             spriteManager.AddSprite(SpriteID.Move, "Sprites/Interface/move");
             spriteManager.AddSprite(SpriteID.Attack, "Sprites/Interface/attack");
             spriteManager.AddSprite(SpriteID.Heal, "Sprites/Interface/heal");
+            spriteManager.AddSprite(SpriteID.Portrait1Normal, "Sprites/Portraits/soldier_normal");
+            spriteManager.AddSprite(SpriteID.Portrait1Wounded, "Sprites/Portraits/soldier_wounded");
 
             // Find camera.
             Camera camera = Camera.main;
@@ -84,7 +88,9 @@ namespace Snipe
             // Build gui state, view and controller objects.
             guiState = new GUIState();
 
-            guiView = new GUIView(gameView);
+            InterfaceView interfaceView = GameObject.Find("InterfaceView").GetComponent<InterfaceView>();
+
+            guiView = new GUIView(gameView, interfaceView);
 
             guiController = new GUIController(gameState, guiState);
 

@@ -44,12 +44,14 @@ namespace Snipe
                 }
             }
 
-            grid.Cells[4, 1].AddEntity(new Unit(Faction.B, UnitType.Soldier, grid));
-            grid.Cells[4, 6].AddEntity(new Unit(Faction.A, UnitType.Soldier, grid));
-            grid.Cells[3, 1].AddEntity(new Unit(Faction.B, UnitType.Sniper, grid));
-            grid.Cells[3, 6].AddEntity(new Unit(Faction.A, UnitType.Sniper, grid));
-            grid.Cells[5, 1].AddEntity(new Unit(Faction.B, UnitType.Medic, grid));
-            grid.Cells[5, 6].AddEntity(new Unit(Faction.A, UnitType.Medic, grid));
+            grid.Cells[4, 6].AddEntity(new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), grid));
+            grid.Cells[3, 6].AddEntity(new Unit(Faction.A, UnitType.Sniper, NameStack.GetName(), grid));
+            grid.Cells[5, 6].AddEntity(new Unit(Faction.A, UnitType.Medic, NameStack.GetName(), grid));
+            grid.Cells[6, 6].AddEntity(new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), grid));
+
+            grid.Cells[4, 1].AddEntity(new Unit(Faction.B, UnitType.Soldier, NameStack.GetName(), grid));
+            grid.Cells[3, 1].AddEntity(new Unit(Faction.B, UnitType.Sniper, NameStack.GetName(), grid));
+            grid.Cells[5, 1].AddEntity(new Unit(Faction.B, UnitType.Medic, NameStack.GetName(), grid));
 
             this.players = new List<Player>();
 		}

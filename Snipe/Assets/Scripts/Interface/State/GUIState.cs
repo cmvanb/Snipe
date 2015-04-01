@@ -12,16 +12,22 @@ namespace Snipe
         public List<Vector2> MovePositions { get { return movePositions; } }
         public List<Vector2> AttackPositions { get { return attackPositions; } }
         public List<Vector2> HealPositions { get { return healPositions; } }
+        public List<Portrait> Player1Portraits { get { return player1Portraits; } }
+        public List<Portrait> Player2Portraits { get { return player2Portraits; } }
 
         private List<Vector2> movePositions;
         private List<Vector2> attackPositions;
         private List<Vector2> healPositions;
+        private List<Portrait> player1Portraits;
+        private List<Portrait> player2Portraits;
 
         public GUIState()
         {
             movePositions = new List<Vector2>();
             attackPositions = new List<Vector2>();
             healPositions = new List<Vector2>();
+            player1Portraits = new List<Portrait>();
+            player2Portraits = new List<Portrait>();
         }
     }
 }

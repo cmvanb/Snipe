@@ -6,6 +6,7 @@ namespace Snipe
     public class GUIView
     {
         private GameView gameView;
+        private InterfaceView interfaceView;
         private bool guiInitialized = false;
         private GameObject selector;
         private GameObject selected;
@@ -13,9 +14,10 @@ namespace Snipe
         private GameObject[] attackObjects;
         private GameObject[] healObjects;
 
-        public GUIView(GameView gameView)
+        public GUIView(GameView gameView, InterfaceView interfaceView)
         {
             this.gameView = gameView;
+            this.interfaceView = interfaceView;
         }
 
         public void Update(GUIState guiState)
@@ -27,6 +29,7 @@ namespace Snipe
                 guiInitialized = true;
             }
 
+            UpdateInterface(guiState);
             UpdateSelector(guiState);
             UpdateSelected(guiState);
             UpdateMoveObjects(guiState);
@@ -96,6 +99,41 @@ namespace Snipe
             }
         }
 
+        private void UpdateInterface(GUIState guiState)
+        {
+            for (int i = 0; i < interfaceView.Player1PortraitViews.Count; ++i)
+            {
+                if (i < guiState.Player1Portraits.Count)
+                {
+                    Portrait portrait = guiState.Player1Portraits[i];
+
+                    interfaceView.Player1PortraitViews[i].SetName(portrait.Name);
+                    interfaceView.Player1PortraitViews[i].SetClass(portrait.Class);
+                    interfaceView.Player1PortraitViews[i].SetSprite(portrait.Sprite);
+                }
+                else
+                {
+                    interfaceView.Player1PortraitViews[i].gameObject.SetActive(false);
+                }
+            }
+
+            for (int i = 0; i < interfaceView.Player2PortraitViews.Count; ++i)
+            {
+                if (i < guiState.Player2Portraits.Count)
+                {
+                    Portrait portrait = guiState.Player2Portraits[i];
+
+                    interfaceView.Player2PortraitViews[i].SetName(portrait.Name);
+                    interfaceView.Player2PortraitViews[i].SetClass(portrait.Class);
+                    interfaceView.Player2PortraitViews[i].SetSprite(portrait.Sprite);
+                }
+                else
+                {
+                    interfaceView.Player2PortraitViews[i].gameObject.SetActive(false);
+                }
+            }
+        }
+
         private void UpdateSelector(GUIState guiState)
         {
             if (guiState.SelectorActive)
@@ -107,7 +145,6 @@ namespace Snipe
 
                 selector.transform.localPosition = new Vector3(
                     guiState.SelectorPosition.x, guiState.SelectorPosition.y, 0);
-
             }
             else
             {

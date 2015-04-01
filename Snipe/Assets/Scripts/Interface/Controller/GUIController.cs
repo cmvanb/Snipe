@@ -12,10 +12,14 @@ namespace Snipe
         {
             this.gameState = gameState;
             this.guiState = guiState;
+
+            InitializePortraits();
         }
 
         public void Update()
         {
+            UpdatePortraits();
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit raycastHit;
@@ -110,6 +114,44 @@ namespace Snipe
             {
                 guiState.SelectedUnit = null;
             }
+        }
+
+        private void InitializePortraits()
+        {
+            guiState.Player1Portraits.Clear();
+
+            List<Unit> units1 = gameState.Grid.GetUnits(gameState.Players[0].Faction);
+
+            for (int i = 0; i < units1.Count; ++i)
+            {
+                Unit unit = units1[i];
+
+                Sprite sprite = SpriteManager.Instance.GetSprite(SpriteID.Portrait1Normal);
+
+                Portrait portrait = new Portrait(unit.GameName, unit.UnitType.ToString(), sprite);
+
+                guiState.Player1Portraits.Add(portrait);
+            }
+
+            guiState.Player2Portraits.Clear();
+
+            List<Unit> units2 = gameState.Grid.GetUnits(gameState.Players[1].Faction);
+
+            for (int i = 0; i < units2.Count; ++i)
+            {
+                Unit unit = units2[i];
+
+                Sprite sprite = SpriteManager.Instance.GetSprite(SpriteID.Portrait1Normal);
+
+                Portrait portrait = new Portrait(unit.GameName, unit.UnitType.ToString(), sprite);
+
+                guiState.Player2Portraits.Add(portrait);
+            }
+        }
+
+        private void UpdatePortraits()
+        {
+            // TODO
         }
 
         private void DisplayLegalMoves(Unit unit)

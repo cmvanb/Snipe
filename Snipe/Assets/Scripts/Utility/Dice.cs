@@ -12,9 +12,7 @@ namespace Snipe
             int yDifference = (int)Mathf.Abs(location.Position.y - target.Position.y);
 
             int distance = Mathf.Max(xDifference, yDifference);
-
-            Debug.Log("dist " + distance);
-
+            
             if (distance > maxDistance)
             {
                 return false;
@@ -23,7 +21,8 @@ namespace Snipe
             float successChance = (1f / distance);
             float roll = UnityEngine.Random.RandomRange(0f, 1f);
 
-            Debug.Log(roll + " <= " + successChance + "?");
+            Debug.Log(roll + " <= " + successChance + " [" + (roll <= successChance ? "HIT]" : "MISS]"));
+
             if (roll <= successChance)
             {
                 return true;

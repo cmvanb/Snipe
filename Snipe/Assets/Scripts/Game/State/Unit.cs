@@ -9,22 +9,27 @@ namespace Snipe
         { 
             get 
             {
-                return "Unit/" + faction.ToString() + "/" + unitType.ToString();
+                return "Unit/" + faction.ToString() + "/" + gameName + "/" + unitType.ToString();
             }
         }
 
-        public Faction Faction { get { return faction; } set { faction = value; } }
-        public UnitType UnitType { get { return unitType; } set { unitType = value; } }
+        public Faction Faction { get { return faction; } }
+        public UnitType UnitType { get { return unitType; } }
+        public string GameName { get { return gameName; } }
         public bool IsWounded { get { return isWounded; } set { isWounded = value; } }
+        public bool IsRevealed { get { return isRevealed; } set { isRevealed = value; } }
 
         private Faction faction;
         private UnitType unitType;
+        private string gameName;
         private bool isWounded;
+        private bool isRevealed;
 
-        public Unit(Faction faction, UnitType unitType, Grid grid) : base(grid)
+        public Unit(Faction faction, UnitType unitType, string gameName, Grid grid) : base(grid)
         {
             this.faction = faction;
             this.unitType = unitType;
+            this.gameName = gameName;
         }
 
         public void Move(Cell destination)
@@ -39,6 +44,11 @@ namespace Snipe
         public void Attack(Cell target)
         {
             Unit targetUnit = target.GetUnit();
+
+            if (unitType == UnitType.Sniper)
+            {
+                isRevealed = true;
+            }
 
             if (grid.AreCellsAdjacent(Location, target))
             {
@@ -59,12 +69,7 @@ namespace Snipe
             {
                 if (Dice.RollForHit(Location, target))
                 {
-                    Debug.Log("hit!");
                     targetUnit.SetIsWounded(true);
-                }
-                else
-                {
-                    Debug.Log("miss!");
                 }
             }
         }
@@ -72,6 +77,11 @@ namespace Snipe
         public void Heal(Cell target)
         {
             Unit targetUnit = target.GetUnit();
+
+            if (unitType == UnitType.Medic)
+            {
+                isRevealed = true;
+            }
 
             if (targetUnit.IsWounded)
             {

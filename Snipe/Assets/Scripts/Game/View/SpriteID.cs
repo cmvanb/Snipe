@@ -25,5 +25,8 @@
         Move = 102,
         Attack = 103,
         Heal = 104,
+
+        Portrait1Normal = 120,
+        Portrait1Wounded = 121,
     }
 }
