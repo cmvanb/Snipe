@@ -57,8 +57,15 @@ namespace Snipe
             }
             else
             {
-                // TODO: Dice throw.
-                targetUnit.SetIsWounded(true);
+                if (Dice.RollForHit(Location, target))
+                {
+                    Debug.Log("hit!");
+                    targetUnit.SetIsWounded(true);
+                }
+                else
+                {
+                    Debug.Log("miss!");
+                }
             }
         }
 
