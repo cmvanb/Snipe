@@ -6,11 +6,13 @@
         GrassRect = 1,
         Grass2Rect = 2,
         DirtRect = 3,
+        StoneLightRect = 4,
 
         EmptyHex = 10,
         GrassHex = 11,
         Grass2Hex = 12,
         DirtHex = 13,
+        StoneLightHex = 14,
 
         ASoldier = 20,
         ASniper = 21,

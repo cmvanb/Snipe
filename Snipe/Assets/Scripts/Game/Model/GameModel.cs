@@ -144,6 +144,7 @@ namespace Snipe
             {
                 for (int y = 0; y < grid.Height; ++y)
                 {
+                    /*
                     bool xIsEven = x % 2 == 0;
                     bool yIsEven = y % 2 == 0;
 
@@ -157,6 +158,8 @@ namespace Snipe
                     }
 
                     grid.Cells[Random.Range(0, grid.Width), y].TileType = TileType.Dirt;
+                    */
+                    grid.Cells[x, y].TileType = TileType.StoneLight;
                 }
             }
         }

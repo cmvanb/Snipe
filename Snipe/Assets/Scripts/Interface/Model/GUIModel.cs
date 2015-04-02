@@ -7,7 +7,7 @@ namespace Snipe
     {
         public bool SelectorActive { get; set; }
         public Vector2 SelectorPosition { get; set; }
-        public Vector2 SelectedPosition { get; set; }
+        //public Vector2 SelectedPosition { get; set; }
         public Unit SelectedUnit { get; set; }
         public bool ShowGameOver { get; set; }
         public List<Vector2> MovePositions { get { return movePositions; } }

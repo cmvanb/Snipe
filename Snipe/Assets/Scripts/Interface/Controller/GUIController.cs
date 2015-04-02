@@ -45,6 +45,11 @@ namespace Snipe
                 }
             }
 
+            if (gameModel.CurrentState != GameState.GamePhase)
+            {
+                return;
+            }
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit raycastHit;
@@ -72,7 +77,7 @@ namespace Snipe
                         && Input.GetMouseButtonUp(0)
                         && gameModel.CurrentPlayer.HasActionPointsLeft())
                     {
-                        guiModel.SelectedPosition = raycastHit.transform.position;
+                        //guiModel.SelectedPosition = raycastHit.transform.position;
                         guiModel.SelectedUnit = unit;
 
                         DisplayLegalMoves(guiModel.SelectedUnit);
@@ -131,10 +136,6 @@ namespace Snipe
                         }
                     }
                 }
-            }
-            else
-            {
-                guiModel.ClearSelection();
             }
 
             if (Input.GetMouseButtonUp(1))

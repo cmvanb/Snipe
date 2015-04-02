@@ -1,4 +1,6 @@
-﻿namespace Snipe
+﻿using UnityEngine;
+
+namespace Snipe
 {
     public abstract class Entity
     {
@@ -9,7 +11,7 @@
         protected Grid grid;
         protected Cell location;
         protected bool isAlive;
-
+        
         public Entity(Grid grid)
         {
             this.grid = grid;

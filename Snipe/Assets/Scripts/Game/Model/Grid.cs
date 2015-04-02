@@ -69,6 +69,26 @@ namespace Snipe
             return units;
         }
 
+        public List<Unit> GetAllUnits()
+        {
+            List<Unit> units = new List<Unit>();
+
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    Unit unit = GetCellAt(x, y).GetUnit();
+
+                    if (unit != null)
+                    {
+                        units.Add(unit);
+                    }
+                }
+            }
+
+            return units;
+        }
+
         public bool AreCellsAdjacent(Cell cell1, Cell cell2)
         {
             Vector2 difference = cell1.Position - cell2.Position;

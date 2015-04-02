@@ -10,8 +10,8 @@ namespace Snipe
         {
             if (GridView != null)
             {
-                float x = screenPosition.x - GridView.GridPosition.x;
-                float y = -(screenPosition.y - GridView.GridPosition.y);
+                float x = (screenPosition.x - GridView.GridPosition.x) * (Constants.PixelsPerUnit / Constants.TileWidth);
+                float y = (-(screenPosition.y - GridView.GridPosition.y)) * (Constants.PixelsPerUnit / Constants.TileHeight);
 
                 return new Vector2(x, y);
             }
@@ -23,8 +23,8 @@ namespace Snipe
         {
             if (GridView != null)
             {
-                float x = GridView.GridPosition.x + gridPosition.x;
-                float y = GridView.GridPosition.y - gridPosition.y;
+                float x = GridView.GridPosition.x + (gridPosition.x * (Constants.TileWidth / Constants.PixelsPerUnit));
+                float y = GridView.GridPosition.y - (gridPosition.y * (Constants.TileHeight / Constants.PixelsPerUnit));
 
                 return new Vector2(x, y);
             }

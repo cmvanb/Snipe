@@ -8,7 +8,7 @@ namespace Snipe
         private InterfaceView interfaceView;
         private bool guiInitialized = false;
         private GameObject selector;
-        private GameObject selected;
+        //private GameObject selected;
         private GameObject[] moveObjects;
         private GameObject[] attackObjects;
         private GameObject[] healObjects;
@@ -29,7 +29,7 @@ namespace Snipe
 
             UpdateInterface(guiModel);
             UpdateSelector(guiModel);
-            UpdateSelected(guiModel);
+            //UpdateSelected(guiModel);
             UpdateMoveObjects(guiModel);
             UpdateAttackObjects(guiModel);
             UpdateHealObjects(guiModel);
@@ -53,11 +53,14 @@ namespace Snipe
             // Selector.
             selector = new GameObject("Selector");
 
+            selector.transform.localScale = new Vector3(2f, 2f, 1f);
+
             spriteRenderer = selector.AddComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = 20;
             sprite = spriteManager.GetSprite(SpriteID.Selector);
             spriteRenderer.sprite = sprite;
 
+            /*
             // Selected.
             selected = new GameObject("Selected");
 
@@ -65,6 +68,7 @@ namespace Snipe
             spriteRenderer.sortingOrder = 9; // Behind units.
             sprite = spriteManager.GetSprite(SpriteID.Selected);
             spriteRenderer.sprite = sprite;
+            */
 
             // Move objects.
             moveObjects = new GameObject[8];
@@ -73,8 +77,10 @@ namespace Snipe
             {
                 moveObjects[i] = new GameObject("Move " + i);
 
+                moveObjects[i].transform.localScale = new Vector3(2f, 2f, 1f);
+
                 spriteRenderer = moveObjects[i].AddComponent<SpriteRenderer>();
-                spriteRenderer.sortingOrder = 20;
+                spriteRenderer.sortingOrder = 8;
                 sprite = spriteManager.GetSprite(SpriteID.Move);
                 spriteRenderer.sprite = sprite;
             }
@@ -85,6 +91,8 @@ namespace Snipe
             for (int i = 0; i < attackObjects.Length; ++i)
             {
                 attackObjects[i] = new GameObject("Attack " + i);
+
+                attackObjects[i].transform.localScale = new Vector3(2f, 2f, 1f);
 
                 spriteRenderer = attackObjects[i].AddComponent<SpriteRenderer>();
                 spriteRenderer.sortingOrder = 20;
@@ -98,6 +106,8 @@ namespace Snipe
             for (int i = 0; i < healObjects.Length; ++i)
             {
                 healObjects[i] = new GameObject("Heal " + i);
+
+                healObjects[i].transform.localScale = new Vector3(2f, 2f, 1f);
 
                 spriteRenderer = healObjects[i].AddComponent<SpriteRenderer>();
                 spriteRenderer.sortingOrder = 20;
@@ -117,6 +127,11 @@ namespace Snipe
                 {
                     Portrait portrait = guiModel.Player1Portraits[i];
 
+                    if (!interfaceView.Player1PortraitViews[i].gameObject.activeSelf)
+                    {
+                        interfaceView.Player1PortraitViews[i].gameObject.SetActive(true);
+                    }
+
                     interfaceView.Player1PortraitViews[i].SetName(portrait.Name);
                     interfaceView.Player1PortraitViews[i].SetClass(portrait.Class);
                     interfaceView.Player1PortraitViews[i].SetSprite(portrait.Sprite);
@@ -132,6 +147,11 @@ namespace Snipe
                 if (i < guiModel.Player2Portraits.Count)
                 {
                     Portrait portrait = guiModel.Player2Portraits[i];
+
+                    if (!interfaceView.Player2PortraitViews[i].gameObject.activeSelf)
+                    {
+                        interfaceView.Player2PortraitViews[i].gameObject.SetActive(true);
+                    }
 
                     interfaceView.Player2PortraitViews[i].SetName(portrait.Name);
                     interfaceView.Player2PortraitViews[i].SetClass(portrait.Class);
@@ -154,7 +174,9 @@ namespace Snipe
                 }
 
                 selector.transform.localPosition = new Vector3(
-                    guiModel.SelectorPosition.x, guiModel.SelectorPosition.y, 0);
+                    guiModel.SelectorPosition.x - (Constants.UnitsPerPixel * 12),
+                    guiModel.SelectorPosition.y + (Constants.UnitsPerPixel * 28), 
+                    0);
             }
             else
             {
@@ -166,6 +188,7 @@ namespace Snipe
 
         }
 
+        /*
         private void UpdateSelected(GUIModel guiModel)
         {
             if (guiModel.SelectedUnit != null)
@@ -186,6 +209,7 @@ namespace Snipe
                 }
             }
         }
+        */
 
         private void UpdateMoveObjects(GUIModel guiModel)
         {
@@ -245,7 +269,9 @@ namespace Snipe
                         }
 
                         attackObjects[i].transform.localPosition = new Vector3(
-                            guiModel.AttackPositions[i].x, guiModel.AttackPositions[i].y, 0);
+                            guiModel.AttackPositions[i].x - (Constants.UnitsPerPixel * 12),
+                            guiModel.AttackPositions[i].y + (Constants.UnitsPerPixel * 28), 
+                            0);
                     }
                     else
                     {

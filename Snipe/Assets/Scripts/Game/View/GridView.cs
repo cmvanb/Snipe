@@ -96,6 +96,7 @@ namespace Snipe
                     GameObject cellObject = new GameObject("Cell " + x + ", " + y);
 
                     cellObject.transform.parent = gameObject.transform;
+                    cellObject.transform.localScale = new Vector3(2f, 2f, 1f);
                     cellObject.AddComponent<SpriteRenderer>();
 
                     BoxCollider boxCollider = cellObject.AddComponent<BoxCollider>();
@@ -156,10 +157,11 @@ namespace Snipe
         private void UpdateGridPosition(GameModel gameModel)
         {
             Grid grid = gameModel.Grid;
-            float gridUnitWidth = grid.Width;
-            float gridUnitHeight = grid.Height;
+            float gridUnitWidth = grid.Width * (Constants.TileWidth / Constants.PixelsPerUnit);
+            float gridUnitHeight = grid.Height * (Constants.TileHeight / Constants.PixelsPerUnit);
 
-            gridPosition = new Vector3((-gridUnitWidth / 2f), (gridUnitHeight / 2f), 0f);
+            gridPosition = new Vector3((-gridUnitWidth / 2f) + Constants.GridOffset.x, 
+                (gridUnitHeight / 2f) + Constants.GridOffset.y, 0f);
 
             gameObject.transform.position = gridPosition;
         }
@@ -167,8 +169,6 @@ namespace Snipe
         private void UpdateCellObject(int x, int y, Cell cell, GridType gridType)
         {
             GameObject cellObject = cellObjects[x, y];
-
-            cellObject.transform.localPosition = new Vector3(x, -y, 0);
 
             SpriteRenderer spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
 
@@ -181,6 +181,10 @@ namespace Snipe
             Sprite sprite = spriteManager.GetSprite(spriteID);
 
             spriteRenderer.sprite = sprite;
+
+            cellObject.transform.position = gridPosition + new Vector3(
+                x * (Constants.TileWidth / Constants.PixelsPerUnit),
+                -y * (Constants.TileHeight / Constants.PixelsPerUnit), 0);
         }
     }
 }

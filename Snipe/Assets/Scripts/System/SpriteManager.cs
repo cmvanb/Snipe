@@ -47,6 +47,8 @@ namespace Snipe
                         return SpriteID.Grass2Hex;
                     case TileType.Dirt:
                         return SpriteID.DirtHex;
+                    case TileType.StoneLight:
+                        return SpriteID.StoneLightHex;
                 }
             }
             else if (gridType == GridType.Rectangular)
@@ -61,6 +63,8 @@ namespace Snipe
                         return SpriteID.Grass2Rect;
                     case TileType.Dirt:
                         return SpriteID.DirtRect;
+                    case TileType.StoneLight:
+                        return SpriteID.StoneLightRect;
                 }
             }
 

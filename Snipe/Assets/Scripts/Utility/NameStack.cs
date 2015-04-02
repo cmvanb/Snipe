@@ -18,7 +18,11 @@ namespace Snipe
             "Samir",
             "Farah",
             "Jenny",
-            "Birdy"
+            "Birdy",
+            "Steve",
+            "Charlie",
+            "Olga",
+            "Mary"
         };
 
         private static List<string> namesLeft = new List<string>();
@@ -41,7 +45,7 @@ namespace Snipe
             return name;
         }
 
-        private static void Reset()
+        public static void Reset()
         {
             namesLeft.Clear();
             namesLeft.AddRange(allNames);

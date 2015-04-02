@@ -5,6 +5,8 @@ namespace Snipe
 {
     public class Unit : Entity
     {
+        private const float deployDuration = 0.25f;
+
         public override string Name 
         { 
             get 
@@ -13,25 +15,62 @@ namespace Snipe
             }
         }
 
+        public bool IsDeployed
+        {
+            get
+            {
+                return deployPercentage >= 1f;
+            }
+        }
+
         public Faction Faction { get { return faction; } }
         public UnitType UnitType { get { return unitType; } }
         public string GameName { get { return gameName; } }
         public bool IsWounded { get { return isWounded; } set { isWounded = value; } }
         public bool IsRevealed { get { return isRevealed; } set { isRevealed = value; } }
+        public float DeployPercentage { get { return deployPercentage; } }
+        public int DeployIndex { get { return deployIndex; } }
 
         private Faction faction;
         private UnitType unitType;
         private string gameName;
         private bool isWounded;
         private bool isRevealed;
+        private float deployPercentage;
+        private float deployStartTime;
+        private bool isDeploying;
+        private int deployIndex;
 
-        public Unit(Faction faction, UnitType unitType, string gameName, Grid grid) : base(grid)
+        public Unit(Faction faction, UnitType unitType, string gameName, Grid grid, int deployIndex)
+            : base(grid)
         {
             this.faction = faction;
             this.unitType = unitType;
             this.gameName = gameName;
+            this.deployIndex = deployIndex;
         }
 
+        public void Deploy()
+        {
+            if (!isDeploying)
+            {
+                isDeploying = true;
+
+                deployStartTime = Time.time;
+            }
+
+            if (deployPercentage < 1f)
+            {
+                float timePassed = Time.time - deployStartTime;
+
+                deployPercentage = timePassed / deployDuration;
+            }
+            else
+            {
+                deployPercentage = 1f;
+            }
+        }
+        
         public void Move(Cell destination)
         {
             Location.RemoveEntity(this as Entity);

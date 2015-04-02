@@ -5,6 +5,22 @@ namespace Snipe
 {
     public class EntityView : IView
     {
+        private static List<Vector3> deployPositions = new List<Vector3>()
+        {
+            new Vector3(-10.1f, 8.6f, 0f),
+            new Vector3(-10.1f, 5.85f, 0f),
+            new Vector3(-10.1f, 3.1f, 0f),
+            new Vector3(-10.1f, 0.35f, 0f),
+            new Vector3(-10.1f, -2.4f, 0f),
+            new Vector3(-10.1f, -5.15f, 0f),
+            new Vector3(8.1f, 8.6f, 0f),
+            new Vector3(8.1f, 5.85f, 0f),
+            new Vector3(8.1f, 3.1f, 0f),
+            new Vector3(8.1f, 0.35f, 0f),
+            new Vector3(8.1f, -2.4f, 0f),
+            new Vector3(8.1f, -5.15f, 0f),
+        };
+
         public Entity Entity { get { return entity; } }
 
         private GridView gridView;
@@ -27,10 +43,27 @@ namespace Snipe
 
                 entityInitialized = true;
             }
+            
+            Vector3 targetPosition = gridView.GridPosition + new Vector3(
+                entity.Location.Position.x * (Constants.TileWidth / Constants.PixelsPerUnit) + Constants.EntityOffset.x,
+                -entity.Location.Position.y * (Constants.TileHeight / Constants.PixelsPerUnit) + Constants.EntityOffset.y,
+                -0.5f);
 
-            Vector2 position = entity.Location.Position;
+            Unit unit = entity as Unit;
 
-            gameObject.transform.position = gridView.GridPosition + new Vector3(position.x, -position.y, -0.5f);
+            if (unit != null
+                && !unit.IsDeployed)
+            {
+                Vector3 startPosition = deployPositions[unit.DeployIndex];
+
+                gameObject.transform.position = Vector3.Lerp(startPosition, targetPosition, unit.DeployPercentage);
+            }
+            else
+            {
+                gameObject.transform.position = targetPosition;
+            }
+
+            gameObject.transform.localScale = new Vector3(2f, 2f, 1f);
 
             SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
@@ -65,11 +98,11 @@ namespace Snipe
             SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
 
             spriteRenderer.sortingOrder = 10;
-
+            /*
             BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
 
             boxCollider.size = new Vector3(1f, 1f, 0.1f);
-            boxCollider.center = new Vector3(0.5f, -0.5f, 0f);
+            boxCollider.center = new Vector3(0.5f, -0.5f, 0f);*/
         }
     }
 }
