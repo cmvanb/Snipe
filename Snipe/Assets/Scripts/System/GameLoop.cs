@@ -29,6 +29,7 @@ namespace Snipe
             // Identify and load all dynamic resources.
             ResourceManager resourceManager = ResourceManager.Instance;
 
+            resourceManager.AddAllAtPath("Sprites/");
             resourceManager.AddPath("Sprites/RectTiles/empty_rect");
             resourceManager.AddPath("Sprites/RectTiles/grass");
             resourceManager.AddPath("Sprites/RectTiles/grass2");

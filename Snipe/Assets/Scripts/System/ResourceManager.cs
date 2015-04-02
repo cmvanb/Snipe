@@ -22,8 +22,11 @@ namespace Snipe
             paths.Add(path);
         }
 
-        // TODO: Write function that will load all objects at a specific path in resources.
-        
+        public void AddAllAtPath(string path)
+        {
+            // TODO: Write function that will load all objects at a specific path in resources.
+        }
+
         public void LoadAll()
         {
             foreach (string path in paths)
