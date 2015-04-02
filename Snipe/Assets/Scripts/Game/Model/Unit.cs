@@ -28,6 +28,7 @@ namespace Snipe
         public string GameName { get { return gameName; } }
         public bool IsWounded { get { return isWounded; } set { isWounded = value; } }
         public bool IsRevealed { get { return isRevealed; } set { isRevealed = value; } }
+        public bool IsPeeked { get { return isPeeked; } set { isPeeked = value; } }
         public float DeployPercentage { get { return deployPercentage; } }
         public int DeployIndex { get { return deployIndex; } }
 
@@ -36,6 +37,7 @@ namespace Snipe
         private string gameName;
         private bool isWounded;
         private bool isRevealed;
+        private bool isPeeked;
         private float deployPercentage;
         private float deployStartTime;
         private bool isDeploying;

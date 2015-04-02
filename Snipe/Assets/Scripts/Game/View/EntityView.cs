@@ -27,7 +27,7 @@ namespace Snipe
         private Entity entity;
         private bool entityInitialized;
         private GameObject gameObject;
-        private Player currentPlayer;
+        private SpriteID currentSpriteID;
 
         public EntityView(GridView gridView, Entity entity)
         {
@@ -66,19 +66,19 @@ namespace Snipe
             gameObject.transform.localScale = new Vector3(2f, 2f, 1f);
 
             SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            
+            SpriteManager spriteManager = SpriteManager.Instance;
+
+            SpriteID spriteID = spriteManager.GetSpriteIDForEntity(entity, gameModel);
 
             if (spriteRenderer.sprite == null
-                || currentPlayer != gameModel.CurrentPlayer)
+                || spriteID != currentSpriteID)
             {
-                SpriteManager spriteManager = SpriteManager.Instance;
-
-                SpriteID spriteID = spriteManager.GetSpriteIDForEntity(entity, gameModel);
+                currentSpriteID = spriteID;
 
                 Sprite sprite = spriteManager.GetSprite(spriteID);
 
                 spriteRenderer.sprite = sprite;
-
-                currentPlayer = gameModel.CurrentPlayer;
             }
         }
 

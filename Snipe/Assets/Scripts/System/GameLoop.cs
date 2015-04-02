@@ -90,6 +90,8 @@ namespace Snipe
 
             interfaceView.ClickedEndTurnButtonEvent += () => { gameController.EndTurn(); };
             interfaceView.ClickedNewGameButtonEvent += () => { gameController.NewGame(); };
+            interfaceView.PressedPeekButtonEvent += () => { gameController.StartPeek(); };
+            interfaceView.ReleasedPeekButtonEvent += () => { gameController.StopPeek(); };
 
             // Build gui model, view and controller objects.
             guiModel = new GUIModel();

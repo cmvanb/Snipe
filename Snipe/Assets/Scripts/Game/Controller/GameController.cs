@@ -89,9 +89,32 @@ namespace Snipe
             if (gameModel.CurrentState == GameState.PostGamePhase
                 && gameModel.GameOver)
             {
-                Debug.Log("NEW GAME!!");
                 gameModel.Reset();
                 gameModel.ChangeGameState(GameState.PreGamePhase);
+            }
+        }
+
+        public void StartPeek()
+        {
+            if (gameModel.CurrentState == GameState.GamePhase
+                && !gameModel.GameOver)
+            {
+                List<Unit> units = gameModel.Grid.GetUnits(gameModel.CurrentPlayer.Faction);
+
+                foreach (Unit unit in units)
+                {
+                    unit.IsPeeked = true;
+                }
+            }
+        }
+
+        public void StopPeek()
+        {
+            List<Unit> units = gameModel.Grid.GetAllUnits();
+
+            foreach (Unit unit in units)
+            {
+                unit.IsPeeked = false;
             }
         }
 
@@ -104,9 +127,9 @@ namespace Snipe
 
                     Unit[] aUnits = new Unit[]
                     {
-                        new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 0),
+                        new Unit(Faction.A, UnitType.Sniper, NameStack.GetName(), gameModel.Grid, 0),
                         new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 1),
-                        new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 2),
+                        new Unit(Faction.A, UnitType.Medic, NameStack.GetName(), gameModel.Grid, 2),
                         new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 3),
                         new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 4),
                         new Unit(Faction.A, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 5),
@@ -132,9 +155,9 @@ namespace Snipe
                         new Unit(Faction.B, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 6),
                         new Unit(Faction.B, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 7),
                         new Unit(Faction.B, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 8),
-                        new Unit(Faction.B, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 9),
+                        new Unit(Faction.B, UnitType.Medic, NameStack.GetName(), gameModel.Grid, 9),
                         new Unit(Faction.B, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 10),
-                        new Unit(Faction.B, UnitType.Soldier, NameStack.GetName(), gameModel.Grid, 11),
+                        new Unit(Faction.B, UnitType.Sniper, NameStack.GetName(), gameModel.Grid, 11),
                     };
 
                     Vector2[] bPositions = new Vector2[]
