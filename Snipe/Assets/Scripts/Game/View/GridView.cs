@@ -172,18 +172,15 @@ namespace Snipe
 
             SpriteRenderer spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
 
-            if (spriteRenderer.sprite == null)
-            {
-                SpriteManager spriteManager = SpriteManager.Instance;
+            SpriteManager spriteManager = SpriteManager.Instance;
 
-                TileType tileType = cell.TileType;
+            TileType tileType = cell.TileType;
 
-                SpriteID spriteID = spriteManager.GetSpriteIDForTileType(tileType, gridType);
+            SpriteID spriteID = spriteManager.GetSpriteIDForTileType(tileType, gridType);
 
-                Sprite sprite = spriteManager.GetSprite(spriteID);
+            Sprite sprite = spriteManager.GetSprite(spriteID);
 
-                spriteRenderer.sprite = sprite;
-            }
+            spriteRenderer.sprite = sprite;
         }
     }
 }
