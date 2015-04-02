@@ -97,6 +97,9 @@ namespace Snipe
                 sprite = spriteManager.GetSprite(SpriteID.Heal);
                 spriteRenderer.sprite = sprite;
             }
+
+            // Interface.
+            interfaceView.GameOverView.SetActive(false);
         }
 
         private void UpdateInterface(GUIState guiState)

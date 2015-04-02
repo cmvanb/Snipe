@@ -18,11 +18,11 @@ namespace Snipe
 
 		public void Update()
 		{
-            if (gameState.CurrentPlayer.ActionPoints == 0)
-            {
-                // TODO: Handle turn over.
-                gameState.AdvanceTurn();
-            }
 		}
+
+        public void EndTurn()
+        {
+            gameState.AdvanceTurn();
+        }
 	}
 }

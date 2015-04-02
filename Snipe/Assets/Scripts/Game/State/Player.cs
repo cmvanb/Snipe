@@ -18,6 +18,11 @@ namespace Snipe
             this.faction = faction;
         }
 
+        public bool HasActionPointsLeft()
+        {
+            return actionPoints > 0;
+        }
+
         public void UseActionPoint()
         {
             --actionPoints;

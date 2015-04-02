@@ -84,11 +84,14 @@ namespace Snipe
             gameView = new GameView(camera);
 
 			gameController = new GameController(gameState);
+
+            // Find interface view and link up relevant button events.
+            InterfaceView interfaceView = GameObject.Find("InterfaceView").GetComponent<InterfaceView>();
             
+            interfaceView.ClickedEndTurnButtonEvent += () => { gameController.EndTurn(); };
+
             // Build gui state, view and controller objects.
             guiState = new GUIState();
-
-            InterfaceView interfaceView = GameObject.Find("InterfaceView").GetComponent<InterfaceView>();
 
             guiView = new GUIView(gameView, interfaceView);
 

@@ -13,7 +13,7 @@ namespace Snipe
             this.gameState = gameState;
             this.guiState = guiState;
 
-            InitializePortraits();
+            UpdatePortraits();
         }
 
         public void Update()
@@ -44,7 +44,8 @@ namespace Snipe
                     guiState.SelectorActive = true;
 
                     if (guiState.SelectedUnit != unit
-                        && Input.GetMouseButtonUp(0))
+                        && Input.GetMouseButtonUp(0)
+                        && gameState.CurrentPlayer.HasActionPointsLeft())
                     {
                         guiState.SelectedPosition = raycastHit.transform.position;
                         guiState.SelectedUnit = unit;
@@ -59,7 +60,8 @@ namespace Snipe
                     guiState.SelectorActive = false;
 
                     if (guiState.SelectedUnit != null
-                        && Input.GetMouseButtonUp(0))
+                        && Input.GetMouseButtonUp(0)
+                        && gameState.CurrentPlayer.HasActionPointsLeft())
                     {
                         List<Cell> legalMoves = guiState.SelectedUnit.GetLegalMoves();
 
@@ -116,7 +118,7 @@ namespace Snipe
             }
         }
 
-        private void InitializePortraits()
+        private void UpdatePortraits()
         {
             guiState.Player1Portraits.Clear();
 
@@ -128,7 +130,9 @@ namespace Snipe
 
                 Sprite sprite = SpriteManager.Instance.GetSprite(SpriteID.Portrait1Normal);
 
-                Portrait portrait = new Portrait(unit.GameName, unit.UnitType.ToString(), sprite);
+                string _class = unit.IsRevealed ? unit.UnitType.ToString() : UnitType.Unknown.ToString();
+
+                Portrait portrait = new Portrait(unit.GameName, _class, sprite);
 
                 guiState.Player1Portraits.Add(portrait);
             }
@@ -143,15 +147,12 @@ namespace Snipe
 
                 Sprite sprite = SpriteManager.Instance.GetSprite(SpriteID.Portrait1Normal);
 
-                Portrait portrait = new Portrait(unit.GameName, unit.UnitType.ToString(), sprite);
+                string _class = unit.IsRevealed ? unit.UnitType.ToString() : UnitType.Unknown.ToString();
+
+                Portrait portrait = new Portrait(unit.GameName, _class, sprite);
 
                 guiState.Player2Portraits.Add(portrait);
             }
-        }
-
-        private void UpdatePortraits()
-        {
-            // TODO
         }
 
         private void DisplayLegalMoves(Unit unit)
