@@ -5,13 +5,14 @@ namespace Snipe
 {
     public class GUIController
     {
-        private GameState gameState;
-        private GUIState guiState;
+        private GameModel gameModel;
+        private GUIModel guiModel;
+        private bool triggeredGameOver = false;
 
-        public GUIController(GameState gameState, GUIState guiState)
+        public GUIController(GameModel gameModel, GUIModel guiModel)
         {
-            this.gameState = gameState;
-            this.guiState = guiState;
+            this.gameModel = gameModel;
+            this.guiModel = guiModel;
 
             UpdatePortraits();
         }
@@ -20,86 +21,110 @@ namespace Snipe
         {
             UpdatePortraits();
 
+            if (triggeredGameOver)
+            {
+                // In case we reset the game.
+                if (!gameModel.GameOver)
+                {
+                    guiModel.ShowGameOver = false;
+                    triggeredGameOver = false;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (gameModel.GameOver)
+                {
+                    guiModel.ClearSelection();
+                    guiModel.ShowGameOver = true;
+                    triggeredGameOver = true;
+                    return;
+                }
+            }
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit raycastHit;
 
             if (Physics.Raycast(ray, out raycastHit))
             {
-                guiState.SelectorPosition = raycastHit.transform.position;
+                guiModel.SelectorPosition = raycastHit.transform.position;
 
                 Vector2 gridPosition = GridMath.GridPositionFromScreenPosition(raycastHit.transform.position);
 
-                Grid grid = gameState.Grid;
+                Grid grid = gameModel.Grid;
 
                 Cell cell = grid.GetCellAt((int)gridPosition.x, (int)gridPosition.y);
 
                 Unit unit = cell.GetUnit();
 
                 if (unit != null
-                    && gameState.CurrentPlayer.Faction == unit.Faction
+                    && gameModel.CurrentPlayer.Faction == unit.Faction
                     && unit.IsAlive
                     && !unit.IsWounded)
                 {
-                    guiState.SelectorActive = true;
+                    guiModel.SelectorActive = true;
 
-                    if (guiState.SelectedUnit != unit
+                    if (guiModel.SelectedUnit != unit
                         && Input.GetMouseButtonUp(0)
-                        && gameState.CurrentPlayer.HasActionPointsLeft())
+                        && gameModel.CurrentPlayer.HasActionPointsLeft())
                     {
-                        guiState.SelectedPosition = raycastHit.transform.position;
-                        guiState.SelectedUnit = unit;
+                        guiModel.SelectedPosition = raycastHit.transform.position;
+                        guiModel.SelectedUnit = unit;
 
-                        DisplayLegalMoves(guiState.SelectedUnit);
-                        DisplayLegalAttacks(guiState.SelectedUnit);
-                        DisplayLegalHeals(guiState.SelectedUnit);
+                        DisplayLegalMoves(guiModel.SelectedUnit);
+                        DisplayLegalAttacks(guiModel.SelectedUnit);
+                        DisplayLegalHeals(guiModel.SelectedUnit);
                     }
                 }
                 else
                 {
-                    guiState.SelectorActive = false;
+                    guiModel.SelectorActive = false;
 
-                    if (guiState.SelectedUnit != null
+                    if (guiModel.SelectedUnit != null
                         && Input.GetMouseButtonUp(0)
-                        && gameState.CurrentPlayer.HasActionPointsLeft())
+                        && gameModel.CurrentPlayer.HasActionPointsLeft())
                     {
-                        List<Cell> legalMoves = guiState.SelectedUnit.GetLegalMoves();
+                        List<Cell> legalMoves = guiModel.SelectedUnit.GetLegalMoves();
 
                         foreach (Cell legalMove in legalMoves)
                         {
                             if (legalMove.Position == gridPosition)
                             {
-                                gameState.CurrentPlayer.UseActionPoint();
-                                guiState.SelectedUnit.Move(legalMove);
-                                guiState.SelectedUnit = null;
+                                gameModel.CurrentPlayer.UseActionPoint();
+                                guiModel.SelectedUnit.Move(legalMove);
+                                guiModel.SelectedUnit = null;
 
                                 return;
                             }
                         }
 
-                        List<Cell> legalAttacks = guiState.SelectedUnit.GetLegalAttacks();
+                        List<Cell> legalAttacks = guiModel.SelectedUnit.GetLegalAttacks();
 
                         foreach (Cell legalAttack in legalAttacks)
                         {
                             if (legalAttack.Position == gridPosition)
                             {
-                                gameState.CurrentPlayer.UseActionPoint();
-                                guiState.SelectedUnit.Attack(legalAttack);
-                                guiState.SelectedUnit = null;
+                                gameModel.CurrentPlayer.UseActionPoint();
+                                guiModel.SelectedUnit.Attack(legalAttack);
+                                guiModel.SelectedUnit = null;
 
                                 return;
                             }
                         }
 
-                        List<Cell> legalHeals = guiState.SelectedUnit.GetLegalHeals();
+                        List<Cell> legalHeals = guiModel.SelectedUnit.GetLegalHeals();
 
                         foreach (Cell legalHeal in legalHeals)
                         {
                             if (legalHeal.Position == gridPosition)
                             {
-                                gameState.CurrentPlayer.UseActionPoint();
-                                guiState.SelectedUnit.Heal(legalHeal);
-                                guiState.SelectedUnit = null;
+                                gameModel.CurrentPlayer.UseActionPoint();
+                                guiModel.SelectedUnit.Heal(legalHeal);
+                                guiModel.SelectedUnit = null;
 
                                 return;
                             }
@@ -109,20 +134,20 @@ namespace Snipe
             }
             else
             {
-                guiState.SelectorActive = false;
+                guiModel.ClearSelection();
             }
 
             if (Input.GetMouseButtonUp(1))
             {
-                guiState.SelectedUnit = null;
+                guiModel.ClearSelection();
             }
         }
 
         private void UpdatePortraits()
         {
-            guiState.Player1Portraits.Clear();
+            guiModel.Player1Portraits.Clear();
 
-            List<Unit> units1 = gameState.Grid.GetUnits(gameState.Players[0].Faction);
+            List<Unit> units1 = gameModel.Grid.GetUnits(gameModel.Players[0].Faction);
 
             for (int i = 0; i < units1.Count; ++i)
             {
@@ -134,12 +159,12 @@ namespace Snipe
 
                 Portrait portrait = new Portrait(unit.GameName, _class, sprite);
 
-                guiState.Player1Portraits.Add(portrait);
+                guiModel.Player1Portraits.Add(portrait);
             }
 
-            guiState.Player2Portraits.Clear();
+            guiModel.Player2Portraits.Clear();
 
-            List<Unit> units2 = gameState.Grid.GetUnits(gameState.Players[1].Faction);
+            List<Unit> units2 = gameModel.Grid.GetUnits(gameModel.Players[1].Faction);
 
             for (int i = 0; i < units2.Count; ++i)
             {
@@ -151,13 +176,13 @@ namespace Snipe
 
                 Portrait portrait = new Portrait(unit.GameName, _class, sprite);
 
-                guiState.Player2Portraits.Add(portrait);
+                guiModel.Player2Portraits.Add(portrait);
             }
         }
 
         private void DisplayLegalMoves(Unit unit)
         {
-            guiState.MovePositions.Clear();
+            guiModel.MovePositions.Clear();
 
             List<Cell> legalMoves = unit.GetLegalMoves();
 
@@ -165,13 +190,13 @@ namespace Snipe
             {
                 Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalMove.Position);
 
-                guiState.MovePositions.Add(screenPosition);
+                guiModel.MovePositions.Add(screenPosition);
             }
         }
 
         private void DisplayLegalAttacks(Unit unit)
         {
-            guiState.AttackPositions.Clear();
+            guiModel.AttackPositions.Clear();
 
             List<Cell> legalAttacks = unit.GetLegalAttacks();
 
@@ -179,13 +204,13 @@ namespace Snipe
             {
                 Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalAttack.Position);
 
-                guiState.AttackPositions.Add(screenPosition);
+                guiModel.AttackPositions.Add(screenPosition);
             }
         }
 
         private void DisplayLegalHeals(Unit unit)
         {
-            guiState.HealPositions.Clear();
+            guiModel.HealPositions.Clear();
 
             List<Cell> legalHeals = unit.GetLegalHeals();
 
@@ -193,7 +218,7 @@ namespace Snipe
             {
                 Vector2 screenPosition = GridMath.ScreenPositionFromGridPosition(legalHeal.Position);
 
-                guiState.HealPositions.Add(screenPosition);
+                guiModel.HealPositions.Add(screenPosition);
             }
         }
     }

@@ -4,12 +4,14 @@ using UnityEngine;
 namespace Snipe
 {
     public delegate void ClickedEndTurnButtonHandler();
+    public delegate void ClickedNewGameButtonHandler();
     public delegate void PressedPeekButtonHandler();
     public delegate void ReleasedPeekButtonHandler();
 
     public class InterfaceView : MonoBehaviour
     {
         public event ClickedEndTurnButtonHandler ClickedEndTurnButtonEvent;
+        public event ClickedNewGameButtonHandler ClickedNewGameButtonEvent;
         public event PressedPeekButtonHandler PressedPeekButtonEvent;
         public event ReleasedPeekButtonHandler ReleasedPeekButtonEvent;
 
@@ -31,6 +33,14 @@ namespace Snipe
             if (ClickedEndTurnButtonEvent != null)
             {
                 ClickedEndTurnButtonEvent();
+            }
+        }
+
+        public void ClickNewGameButton()
+        {
+            if (ClickedNewGameButtonEvent != null)
+            {
+                ClickedNewGameButtonEvent();
             }
         }
 

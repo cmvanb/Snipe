@@ -19,11 +19,11 @@ namespace Snipe
             this.entity = entity;
         }
 
-        public void Update(GameState gameState)
+        public void Update(GameModel gameModel)
         {
             if (!entityInitialized)
             {
-                InitializeEntity(gameState);
+                InitializeEntity(gameModel);
 
                 entityInitialized = true;
             }
@@ -35,17 +35,17 @@ namespace Snipe
             SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
             if (spriteRenderer.sprite == null
-                || currentPlayer != gameState.CurrentPlayer)
+                || currentPlayer != gameModel.CurrentPlayer)
             {
                 SpriteManager spriteManager = SpriteManager.Instance;
 
-                SpriteID spriteID = spriteManager.GetSpriteIDForEntity(entity, gameState);
+                SpriteID spriteID = spriteManager.GetSpriteIDForEntity(entity, gameModel);
 
                 Sprite sprite = spriteManager.GetSprite(spriteID);
 
                 spriteRenderer.sprite = sprite;
 
-                currentPlayer = gameState.CurrentPlayer;
+                currentPlayer = gameModel.CurrentPlayer;
             }
         }
 
@@ -58,7 +58,7 @@ namespace Snipe
             gameObject = null;
         }
         
-        private void InitializeEntity(GameState gameState)
+        private void InitializeEntity(GameModel gameModel)
         {
             gameObject = new GameObject(entity.Name);
 

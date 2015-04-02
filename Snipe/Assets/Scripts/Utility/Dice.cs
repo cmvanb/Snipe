@@ -19,7 +19,7 @@ namespace Snipe
             }
 
             float successChance = (1f / distance);
-            float roll = UnityEngine.Random.RandomRange(0f, 1f);
+            float roll = UnityEngine.Random.Range(0f, 1f);
 
             Debug.Log(roll + " <= " + successChance + " [" + (roll <= successChance ? "HIT]" : "MISS]"));
 

@@ -8,7 +8,7 @@ namespace Snipe
     {
         public event ResolutionChangedHandler ResolutionChangedEvent;
 
-        private Camera camera;
+        private new Camera camera;
 
         private int bufferedScreenHeight; 
 

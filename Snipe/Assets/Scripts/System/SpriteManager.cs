@@ -67,7 +67,7 @@ namespace Snipe
             throw new System.Exception("Could not find appropriate sprite for tile type: " + tileType + " on grid of type: " + gridType);
         }
 
-        public SpriteID GetSpriteIDForEntity(Entity entity, GameState gameState)
+        public SpriteID GetSpriteIDForEntity(Entity entity, GameModel gameModel)
         {
             Unit unit = entity as Unit;
 
@@ -75,7 +75,7 @@ namespace Snipe
             {
                 int index = (20 + (int)unit.Faction * 10);
 
-                if (unit.Faction == gameState.CurrentPlayer.Faction
+                if (unit.Faction == gameModel.CurrentPlayer.Faction
                     || unit.IsRevealed)
                 {
                     index += (int)unit.UnitType;

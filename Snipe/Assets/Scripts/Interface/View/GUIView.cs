@@ -5,7 +5,6 @@ namespace Snipe
 {
     public class GUIView
     {
-        private GameView gameView;
         private InterfaceView interfaceView;
         private bool guiInitialized = false;
         private GameObject selector;
@@ -14,30 +13,38 @@ namespace Snipe
         private GameObject[] attackObjects;
         private GameObject[] healObjects;
 
-        public GUIView(GameView gameView, InterfaceView interfaceView)
+        public GUIView(InterfaceView interfaceView)
         {
-            this.gameView = gameView;
             this.interfaceView = interfaceView;
         }
 
-        public void Update(GUIState guiState)
+        public void Update(GUIModel guiModel)
         {
             if (!guiInitialized)
             {
-                InitializeGUI(guiState);
+                InitializeGUI(guiModel);
 
                 guiInitialized = true;
             }
 
-            UpdateInterface(guiState);
-            UpdateSelector(guiState);
-            UpdateSelected(guiState);
-            UpdateMoveObjects(guiState);
-            UpdateAttackObjects(guiState);
-            UpdateHealObjects(guiState);
+            UpdateInterface(guiModel);
+            UpdateSelector(guiModel);
+            UpdateSelected(guiModel);
+            UpdateMoveObjects(guiModel);
+            UpdateAttackObjects(guiModel);
+            UpdateHealObjects(guiModel);
+
+            if (guiModel.ShowGameOver)
+            {
+                interfaceView.GameOverView.SetActive(true);
+            }
+            else
+            {
+                interfaceView.GameOverView.SetActive(false);
+            }
         }
 
-        private void InitializeGUI(GUIState guiState)
+        private void InitializeGUI(GUIModel guiModel)
         {
             SpriteRenderer spriteRenderer;
             Sprite sprite;
@@ -102,13 +109,13 @@ namespace Snipe
             interfaceView.GameOverView.SetActive(false);
         }
 
-        private void UpdateInterface(GUIState guiState)
+        private void UpdateInterface(GUIModel guiModel)
         {
             for (int i = 0; i < interfaceView.Player1PortraitViews.Count; ++i)
             {
-                if (i < guiState.Player1Portraits.Count)
+                if (i < guiModel.Player1Portraits.Count)
                 {
-                    Portrait portrait = guiState.Player1Portraits[i];
+                    Portrait portrait = guiModel.Player1Portraits[i];
 
                     interfaceView.Player1PortraitViews[i].SetName(portrait.Name);
                     interfaceView.Player1PortraitViews[i].SetClass(portrait.Class);
@@ -122,9 +129,9 @@ namespace Snipe
 
             for (int i = 0; i < interfaceView.Player2PortraitViews.Count; ++i)
             {
-                if (i < guiState.Player2Portraits.Count)
+                if (i < guiModel.Player2Portraits.Count)
                 {
-                    Portrait portrait = guiState.Player2Portraits[i];
+                    Portrait portrait = guiModel.Player2Portraits[i];
 
                     interfaceView.Player2PortraitViews[i].SetName(portrait.Name);
                     interfaceView.Player2PortraitViews[i].SetClass(portrait.Class);
@@ -137,9 +144,9 @@ namespace Snipe
             }
         }
 
-        private void UpdateSelector(GUIState guiState)
+        private void UpdateSelector(GUIModel guiModel)
         {
-            if (guiState.SelectorActive)
+            if (guiModel.SelectorActive)
             {
                 if (!selector.activeSelf)
                 {
@@ -147,7 +154,7 @@ namespace Snipe
                 }
 
                 selector.transform.localPosition = new Vector3(
-                    guiState.SelectorPosition.x, guiState.SelectorPosition.y, 0);
+                    guiModel.SelectorPosition.x, guiModel.SelectorPosition.y, 0);
             }
             else
             {
@@ -159,9 +166,9 @@ namespace Snipe
 
         }
 
-        private void UpdateSelected(GUIState guiState)
+        private void UpdateSelected(GUIModel guiModel)
         {
-            if (guiState.SelectedUnit != null)
+            if (guiModel.SelectedUnit != null)
             {
                 if (!selected.activeSelf)
                 {
@@ -169,7 +176,7 @@ namespace Snipe
                 }
 
                 selected.transform.localPosition = new Vector3(
-                    guiState.SelectedPosition.x, guiState.SelectedPosition.y, 0);
+                    guiModel.SelectedPosition.x, guiModel.SelectedPosition.y, 0);
             }
             else
             {
@@ -180,18 +187,18 @@ namespace Snipe
             }
         }
 
-        private void UpdateMoveObjects(GUIState guiState)
+        private void UpdateMoveObjects(GUIModel guiModel)
         {
-            if (guiState.SelectedUnit != null)
+            if (guiModel.SelectedUnit != null)
             {
-                if (guiState.MovePositions.Count > moveObjects.Length)
+                if (guiModel.MovePositions.Count > moveObjects.Length)
                 {
                     throw new System.Exception("Not enough move objects.");
                 }
 
                 for (int i = 0; i < moveObjects.Length; ++i)
                 {
-                    if (i < guiState.MovePositions.Count)
+                    if (i < guiModel.MovePositions.Count)
                     {
                         if (!moveObjects[i].activeSelf)
                         {
@@ -199,7 +206,7 @@ namespace Snipe
                         }
 
                         moveObjects[i].transform.localPosition = new Vector3(
-                            guiState.MovePositions[i].x, guiState.MovePositions[i].y, 0);
+                            guiModel.MovePositions[i].x, guiModel.MovePositions[i].y, 0);
                     }
                     else
                     {
@@ -219,18 +226,18 @@ namespace Snipe
             }
         }
 
-        private void UpdateAttackObjects(GUIState guiState)
+        private void UpdateAttackObjects(GUIModel guiModel)
         {
-            if (guiState.SelectedUnit != null)
+            if (guiModel.SelectedUnit != null)
             {
-                if (guiState.AttackPositions.Count > attackObjects.Length)
+                if (guiModel.AttackPositions.Count > attackObjects.Length)
                 {
                     throw new System.Exception("Not enough attack objects.");
                 }
 
                 for (int i = 0; i < attackObjects.Length; ++i)
                 {
-                    if (i < guiState.AttackPositions.Count)
+                    if (i < guiModel.AttackPositions.Count)
                     {
                         if (!attackObjects[i].activeSelf)
                         {
@@ -238,7 +245,7 @@ namespace Snipe
                         }
 
                         attackObjects[i].transform.localPosition = new Vector3(
-                            guiState.AttackPositions[i].x, guiState.AttackPositions[i].y, 0);
+                            guiModel.AttackPositions[i].x, guiModel.AttackPositions[i].y, 0);
                     }
                     else
                     {
@@ -258,18 +265,18 @@ namespace Snipe
             }
         }
 
-        private void UpdateHealObjects(GUIState guiState)
+        private void UpdateHealObjects(GUIModel guiModel)
         {
-            if (guiState.SelectedUnit != null)
+            if (guiModel.SelectedUnit != null)
             {
-                if (guiState.HealPositions.Count > healObjects.Length)
+                if (guiModel.HealPositions.Count > healObjects.Length)
                 {
                     throw new System.Exception("Not enough heal objects.");
                 }
 
                 for (int i = 0; i < healObjects.Length; ++i)
                 {
-                    if (i < guiState.HealPositions.Count)
+                    if (i < guiModel.HealPositions.Count)
                     {
                         if (!healObjects[i].activeSelf)
                         {
@@ -277,7 +284,7 @@ namespace Snipe
                         }
 
                         healObjects[i].transform.localPosition = new Vector3(
-                            guiState.HealPositions[i].x, guiState.HealPositions[i].y, 0);
+                            guiModel.HealPositions[i].x, guiModel.HealPositions[i].y, 0);
                     }
                     else
                     {

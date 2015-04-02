@@ -5,7 +5,7 @@ namespace Snipe
 {
     public class NameStack
     {
-        private static List<string> names = new List<string>()
+        private static readonly List<string> allNames = new List<string>()
         {
             "Clive",
             "Owen",
@@ -21,20 +21,30 @@ namespace Snipe
             "Birdy"
         };
 
+        private static List<string> namesLeft = new List<string>();
+
         public static string GetName()
         {
-            if (names.Count == 0)
+            if (namesLeft.Count == 0)
             {
-                throw new System.Exception("Ran out of names.");
+                Reset();
             }
 
-            int index = Random.Range(0, names.Count);
+            int index = Random.Range(0, namesLeft.Count);
 
-            string name = names[index];
+            string name = namesLeft[index];
 
-            names.RemoveAt(index);
+            namesLeft.RemoveAt(index);
+
+            //Debug.Log(names.Count + " names left");
 
             return name;
+        }
+
+        private static void Reset()
+        {
+            namesLeft.Clear();
+            namesLeft.AddRange(allNames);
         }
     }
 }

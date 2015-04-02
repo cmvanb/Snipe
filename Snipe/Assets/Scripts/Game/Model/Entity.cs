@@ -16,5 +16,11 @@
 
             isAlive = true;
         }
+
+        public void CleanUp()
+        {
+            grid = null;
+            location = null;
+        }
     }
 }

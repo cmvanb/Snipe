@@ -2,7 +2,7 @@
 {
     public interface IView
     {
-        void Update(GameState gameState);
+        void Update(GameModel gameModel);
 
         void CleanUp();
     }

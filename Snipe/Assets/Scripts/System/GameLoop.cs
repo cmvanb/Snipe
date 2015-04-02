@@ -6,10 +6,10 @@ namespace Snipe
 	{
 		private static GameLoop instance;
 
-        private GameState gameState;
+        private GameModel gameModel;
 		private GameView gameView;
         private GameController gameController;
-        private GUIState guiState;
+        private GUIModel guiModel;
         private GUIView guiView;
         private GUIController guiController;
 
@@ -72,45 +72,43 @@ namespace Snipe
             // Find camera.
             Camera camera = Camera.main;
 
-			// TODO: retrieve level data from file and/or scene
-			LevelData levelData = new LevelData();
+            // Build game model, view and controller objects.
+			gameModel = new GameModel();
 
-            // Build game state, view and controller objects.
-			gameState = new GameState(levelData);
+            gameModel.AddPlayer(new Player("Casper", Faction.A));
+            gameModel.AddPlayer(new Player("Thomas", Faction.B));
 
-            gameState.AddPlayer(new Player("Casper", Faction.A));
-            gameState.AddPlayer(new Player("Thomas", Faction.B));
+            gameView = new GameView(gameModel, camera);
 
-            gameView = new GameView(camera);
-
-			gameController = new GameController(gameState);
+			gameController = new GameController(gameModel);
 
             // Find interface view and link up relevant button events.
             InterfaceView interfaceView = GameObject.Find("InterfaceView").GetComponent<InterfaceView>();
-            
+
             interfaceView.ClickedEndTurnButtonEvent += () => { gameController.EndTurn(); };
+            interfaceView.ClickedNewGameButtonEvent += () => { gameController.NewGame(); };
 
-            // Build gui state, view and controller objects.
-            guiState = new GUIState();
+            // Build gui model, view and controller objects.
+            guiModel = new GUIModel();
 
-            guiView = new GUIView(gameView, interfaceView);
+            guiView = new GUIView(interfaceView);
 
-            guiController = new GUIController(gameState, guiState);
+            guiController = new GUIController(gameModel, guiModel);
 
             // Initialize view.
-            gameView.Update(gameState);
-            guiView.Update(guiState);
+            gameView.Update(gameModel);
+            guiView.Update(guiModel);
 
             // Start game.
-            gameController.Start();
+            gameController.StartGame();
 		}
 
 		void Update()
         {
             guiController.Update();
 			gameController.Update();
-            gameView.Update(gameState);
-            guiView.Update(guiState);
+            gameView.Update(gameModel);
+            guiView.Update(guiModel);
 		}
 	}
 }

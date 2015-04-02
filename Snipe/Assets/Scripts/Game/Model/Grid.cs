@@ -34,6 +34,20 @@ namespace Snipe
             }
 		}
 
+        public void CleanUp()
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    this.cells[x, y].CleanUp();
+                    this.cells[x, y] = null;
+                }
+            }
+
+            this.cells = null;
+        }
+
         public List<Unit> GetUnits(Faction faction)
         {
             List<Unit> units = new List<Unit>();

@@ -11,26 +11,28 @@ namespace Snipe
         private bool gridInitialized;
         private GameObject gameObject;
         private GameObject[,] cellObjects;
-        private List<EntityView> entityViews;
+        private Dictionary<Entity, EntityView> entityViews;
+        private List<Entity> deadEntities;
 
         public GridView()
         {
             GridMath.GridView = this;
 
-            entityViews = new List<EntityView>();
+            entityViews = new Dictionary<Entity, EntityView>();
+            deadEntities = new List<Entity>();
         }
         
-        public void Update(GameState gameState)
+        public void Update(GameModel gameModel)
         {
             if (!gridInitialized)
             {
-                InitializeGrid(gameState);
+                InitializeGrid(gameModel);
 
                 gridInitialized = true;
             }
 
             // Update cell objects.
-            Grid grid = gameState.Grid;
+            Grid grid = gameModel.Grid;
 
             for (int x = 0; x < grid.Width; ++x)
             {
@@ -41,47 +43,48 @@ namespace Snipe
             }
 
             // Update entity views.
-            for (int i = 0; i < entityViews.Count; ++i)
-            {
-                if (!entityViews[i].Entity.IsAlive)
-                {
-                    entityViews[i].CleanUp();
-                    entityViews.RemoveAt(i);
-                    --i;
-                }
-                else
-                {
-                    entityViews[i].Update(gameState);
-                }
-            }
+            UpdateEntityViews(gameModel);
 
             // Update grid position (can react to resolution changes).
-            UpdateGridPosition(gameState);
+            UpdateGridPosition(gameModel);
         }
 
         public void CleanUp()
         {
-            for (int i = 0; i < entityViews.Count; ++i)
+            foreach (Entity entity in entityViews.Keys)
             {
-                entityViews[i].CleanUp();
+                entityViews[entity].CleanUp();
             }
 
             entityViews.Clear();
+            deadEntities.Clear();
 
             GameObject.Destroy(gameObject);
 
             gameObject = null;
             cellObjects = null;
             entityViews = null;
+            deadEntities = null;
         }
 
-        private void InitializeGrid(GameState gameState)
+        public void Reset()
+        {
+            foreach (Entity entity in entityViews.Keys)
+            {
+                entityViews[entity].CleanUp();
+            }
+
+            entityViews.Clear();
+            deadEntities.Clear();
+        }
+
+        private void InitializeGrid(GameModel gameModel)
         {
             // Create parent object.
             gameObject = new GameObject("GridView");
             
             // Setup cell objects array.
-            Grid grid = gameState.Grid;
+            Grid grid = gameModel.Grid;
             
             cellObjects = new GameObject[grid.Width, grid.Height];
 
@@ -103,8 +106,13 @@ namespace Snipe
                     cellObjects[x, y] = cellObject;
                 }
             }
+        }
 
-            // Create entity views.
+        private void UpdateEntityViews(GameModel gameModel)
+        {
+            Grid grid = gameModel.Grid;
+
+            // Create entity views if necessary.
             for (int x = 0; x < grid.Width; ++x)
             {
                 for (int y = 0; y < grid.Height; ++y)
@@ -113,17 +121,41 @@ namespace Snipe
 
                     foreach (Entity entity in cell.Entities)
                     {
-                        EntityView entityView = new EntityView(this, entity);
-
-                        entityViews.Add(entityView);
+                        if (!entityViews.ContainsKey(entity))
+                        {
+                            entityViews[entity] = new EntityView(this, entity);
+                        }
                     }
                 }
             }
+
+            // Update entities.
+            foreach (Entity entity in entityViews.Keys)
+            {
+                if (!entity.IsAlive)
+                {
+                    entityViews[entity].CleanUp();
+                    deadEntities.Add(entity);
+                }
+                else
+                {
+                    entityViews[entity].Update(gameModel);
+                }
+            }
+
+            // Remove dead entities.
+            foreach (Entity entity in deadEntities)
+            {
+                entityViews.Remove(entity);
+            }
+
+            deadEntities.Clear();
+
         }
 
-        private void UpdateGridPosition(GameState gameState)
+        private void UpdateGridPosition(GameModel gameModel)
         {
-            Grid grid = gameState.Grid;
+            Grid grid = gameModel.Grid;
             float gridUnitWidth = grid.Width;
             float gridUnitHeight = grid.Height;
 

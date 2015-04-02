@@ -20,6 +20,18 @@ namespace Snipe
             this.entities = new List<Entity>();
         }
 
+        public void CleanUp()
+        {
+            foreach (Entity entity in Entities)
+            {
+                entity.CleanUp();
+            }
+
+            entities.Clear();
+
+            entities = null;
+        }
+
 		public void AddEntity(Entity entity)
         {
             entity.Location = this;
