@@ -3,12 +3,18 @@
     public abstract class Entity
     {
         public Cell Location { get { return location; } set { location = value; } }
+        public bool IsAlive { get { return isAlive; } }
         public abstract string Name { get; }
 
-        private Cell location;
+        protected Grid grid;
+        protected Cell location;
+        protected bool isAlive;
 
-        public Entity()
+        public Entity(Grid grid)
         {
+            this.grid = grid;
+
+            isAlive = true;
         }
     }
 }

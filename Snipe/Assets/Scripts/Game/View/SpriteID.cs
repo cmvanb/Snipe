@@ -4,11 +4,13 @@
     {
         EmptyRect = 0,
         GrassRect = 1,
-        DirtRect = 2,
+        Grass2Rect = 2,
+        DirtRect = 3,
 
         EmptyHex = 10,
         GrassHex = 11,
-        DirtHex = 12,
+        Grass2Hex = 12,
+        DirtHex = 13,
 
         ASoldier = 20,
         ASniper = 21,
@@ -22,5 +24,9 @@
         Selected = 101,
         Move = 102,
         Attack = 103,
+        Heal = 104,
+
+        Portrait1Normal = 120,
+        Portrait1Wounded = 121,
     }
 }

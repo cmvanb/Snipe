@@ -43,6 +43,8 @@ namespace Snipe
                         return SpriteID.EmptyHex;
                     case TileType.Grass:
                         return SpriteID.GrassHex;
+                    case TileType.Grass2:
+                        return SpriteID.Grass2Hex;
                     case TileType.Dirt:
                         return SpriteID.DirtHex;
                 }
@@ -55,6 +57,8 @@ namespace Snipe
                         return SpriteID.EmptyRect;
                     case TileType.Grass:
                         return SpriteID.GrassRect;
+                    case TileType.Grass2:
+                        return SpriteID.Grass2Rect;
                     case TileType.Dirt:
                         return SpriteID.DirtRect;
                 }
@@ -63,13 +67,19 @@ namespace Snipe
             throw new System.Exception("Could not find appropriate sprite for tile type: " + tileType + " on grid of type: " + gridType);
         }
 
-        public SpriteID GetSpriteIDForEntity(Entity entity)
+        public SpriteID GetSpriteIDForEntity(Entity entity, GameState gameState)
         {
             Unit unit = entity as Unit;
 
             if (unit != null)
             {
-                int index = (20 + (int)unit.Faction * 10) + (int)unit.UnitType;
+                int index = (20 + (int)unit.Faction * 10);
+
+                if (unit.Faction == gameState.CurrentPlayer.Faction
+                    || unit.IsRevealed)
+                {
+                    index += (int)unit.UnitType;
+                }
 
                 return (SpriteID)index;
             }
