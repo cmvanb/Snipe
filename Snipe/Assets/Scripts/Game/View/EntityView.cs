@@ -28,6 +28,7 @@ namespace Snipe
         private bool entityInitialized;
         private GameObject gameObject;
         private SpriteID currentSpriteID;
+        private int baseSortingOrder = -999;
 
         public EntityView(GridView gridView, Entity entity)
         {
@@ -79,6 +80,13 @@ namespace Snipe
                 Sprite sprite = spriteManager.GetSprite(spriteID);
 
                 spriteRenderer.sprite = sprite;
+
+                if (baseSortingOrder == -999)
+                {
+                    baseSortingOrder = spriteRenderer.sortingOrder;
+                }
+
+                spriteRenderer.sortingOrder = baseSortingOrder + (int)entity.Location.Position.y;
             }
         }
 
