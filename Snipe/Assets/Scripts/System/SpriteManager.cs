@@ -79,7 +79,7 @@ namespace Snipe
             {
                 int index = (20 + (int)unit.Faction * 10);
 
-                if (unit.Faction == gameModel.CurrentPlayer.Faction
+                if (unit.IsPeeked
                     || unit.IsRevealed)
                 {
                     index += (int)unit.UnitType;
