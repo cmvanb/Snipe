@@ -12,10 +12,12 @@ namespace Snipe
         private GameObject[] moveObjects;
         private GameObject[] attackObjects;
         private GameObject[] healObjects;
+        private GameModel gameModel;
 
-        public GUIView(InterfaceView interfaceView)
+        public GUIView(InterfaceView interfaceView, GameModel gameModel)
         {
             this.interfaceView = interfaceView;
+            this.gameModel = gameModel;
         }
 
         public void Update(GUIModel guiModel)
@@ -162,6 +164,9 @@ namespace Snipe
                     interfaceView.Player2PortraitViews[i].gameObject.SetActive(false);
                 }
             }
+
+            interfaceView.Player1ActionsView.SetActionPoints(gameModel.Players[0].ActionPoints);
+            interfaceView.Player2ActionsView.SetActionPoints(gameModel.Players[1].ActionPoints);
         }
 
         private void UpdateSelector(GUIModel guiModel)
