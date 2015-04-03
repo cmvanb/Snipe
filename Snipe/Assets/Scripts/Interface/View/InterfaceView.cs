@@ -18,6 +18,8 @@ namespace Snipe
         public List<PortraitView> Player1PortraitViews { get { return player1PortraitViews; } }
         public List<PortraitView> Player2PortraitViews { get { return player2PortraitViews; } }
         public GameObject GameOverView { get { return gameOverView; } }
+        public ActionsView Player1ActionsView { get { return player1ActionsView; } }
+        public ActionsView Player2ActionsView { get { return player2ActionsView; } }
 
         [SerializeField]
         private List<PortraitView> player1PortraitViews = new List<PortraitView>();
@@ -27,6 +29,12 @@ namespace Snipe
 
         [SerializeField]
         private GameObject gameOverView;
+
+        [SerializeField]
+        private ActionsView player1ActionsView;
+
+        [SerializeField]
+        private ActionsView player2ActionsView;
 
         public void ClickEndTurnButton()
         {

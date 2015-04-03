@@ -96,7 +96,7 @@ namespace Snipe
             // Build gui model, view and controller objects.
             guiModel = new GUIModel();
 
-            guiView = new GUIView(interfaceView);
+            guiView = new GUIView(interfaceView, gameModel);
 
             guiController = new GUIController(gameModel, guiModel);
 
